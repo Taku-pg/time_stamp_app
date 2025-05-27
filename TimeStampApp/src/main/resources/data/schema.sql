@@ -1,3 +1,37 @@
+ALTER TABLE Break
+DROP FOREIGN KEY Break_Working_hour;
+
+ALTER TABLE Employee
+DROP FOREIGN KEY Employee_Department;
+
+ALTER TABLE Employee
+DROP FOREIGN KEY Employee_Status;
+
+ALTER TABLE Employee
+DROP FOREIGN KEY Employee_User;
+
+ALTER TABLE Working_hour
+DROP FOREIGN KEY Working_hour_Employee;
+
+ALTER TABLE Working_hour_segment
+DROP FOREIGN KEY Working_hour_segment_Working_hour;
+
+-- tables
+DROP TABLE Break;
+
+DROP TABLE Department;
+
+DROP TABLE Employee;
+
+DROP TABLE Status;
+
+DROP TABLE User;
+
+DROP TABLE Working_hour;
+
+DROP TABLE Working_hour_segment;
+
+
 -- tables
 -- Table: Break
 CREATE TABLE Break (
@@ -36,11 +70,11 @@ CREATE TABLE Status (
 );
 
 -- Table: User
-CREATE TABLE User (
+CREATE TABLE `User` (
     Id int  NOT NULL,
     UserName varchar(20)  NOT NULL,
     Password varchar(200)  NOT NULL,
-    Role varchar(15)  NOT NULL,
+    `Role` varchar(15)  NOT NULL,
     CONSTRAINT User_pk PRIMARY KEY (Id)
 );
 

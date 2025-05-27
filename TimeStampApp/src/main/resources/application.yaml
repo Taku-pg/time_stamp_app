@@ -1,0 +1,16 @@
+spring:
+  application:
+    name=TimeStampApp
+  datasource:
+    url: jdbc:mysql://localhost:3306/timestampdb?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: timestamp
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:data/schema.sql
+      data-locations: classpath:data/data.sql
