@@ -11,25 +11,26 @@
   <h3>Edit employee information</h3>
   <form th:action="@{/admin/modify-employee}" method="post" th:object="${employee}">
   <div class="register_employee">
+    <input type="hidden" name="employeeId" th:value="*{employeeId}">
     <label>First name:<br>
-      <input type="text" required th:value="*{firstName}">
+      <input type="text" required name="firstName" th:value="*{firstName}">
     </label>
     <br><br>
     <label>Last name:<br>
-      <input type="text" required th:value="*{lastName}">
+      <input type="text" required name="lastName" th:value="*{lastName}">
     </label>
     <br><br>
     <label>Email address:<br>
-      <input type="email" required th:value="*{email}">
+      <input type="email" required name="email" th:value="*{email}">
     </label>
     <br><br>
     <label>Salary:<br>
-      <input type="number" required th:value="*{salary}">
+      <input type="number" required name="salary" th:value="*{salary}">
       zl
     </label>
     <br><br>
     <label>Department:<br>
-      <select >
+      <select name="department" th:field="*{department}">
         <option
                 th:each="department:${departments}"
                 th:text="${department}"

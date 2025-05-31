@@ -18,3 +18,12 @@ INSERT INTO Employee (First_Name,Last_Name,Salary,Email,User_Id,Department_Id,St
     ('John','Smith',80,'employee1@gmail.com',2,1,1),
     ('James','Bond',32,'employee2@gmail.com',3,2,1),
     ('Bob','Takahashi',26,'employee3@gmail.com',4,3,1);
+
+INSERT INTO segment_type (Name, Magnification) VALUES
+    ('regular',1.00);
+INSERT INTO segment_type (Name, Magnification) VALUES
+    ('night',1.25);
+INSERT INTO segment_type (Name, Magnification) VALUES
+    ('overtime',1.25);
+INSERT INTO segment_type (Name, Magnification) VALUES
+    ('over-night',1.57);

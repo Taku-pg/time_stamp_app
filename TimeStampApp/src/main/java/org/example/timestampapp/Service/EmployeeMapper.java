@@ -34,6 +34,7 @@ public class EmployeeMapper {
     }
 
     public Employee map(EmployeeDTO employeeDTO) {
+        System.out.println(employeeDTO.getEmployeeId());
         Employee employee= employeeRepository.getEmployeeById(employeeDTO.getEmployeeId());
 
         if(employeeDTO.getFirstName() != null)

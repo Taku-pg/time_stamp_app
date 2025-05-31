@@ -9,72 +9,90 @@
 <body style="padding-top: 0">
 <main layout:fragment="content">
 <div style="display: block; margin: auto">
-    <h2> Your working statistic(2025-3)</h2>
+    <h2 th:text="'Working statistics ('+${statistics.year}+'-'+${statistics.month}+')'"></h2>
     <div style="text-align: right">
         <label>Month:
             <input type="month" placeholder="1">
         </label>
-        <button type="submit"> search</button>
+        <button type="submit">search</button>
     </div>
     <div style="display: flex">
-        <canvas id="myChart" style="height: 350px;width: 350px; padding: 10px"></canvas>
+        <canvas id="employeeChart" style="height: 350px;width: 350px; padding: 10px"></canvas>
         <script>
-            const chartData = {
-                labels: ['Regular', 'Night shift', 'Overtime'],
-                datasets: [{
-                    data: [50, 35, 25],
-                    backgroundColor: ['#b22222', '#eb5136', '#ffce56'],
-                    hoverOffset: 4
-                }]
-            };
-
-            const config = {
-                type: 'doughnut',
-                data: chartData,
-                options: {
-                    responsive: false,
-                    cutout: '45%',
-                    plugins: {
-                        tooltip: {
-                            callbacks: {
-                                label: function (context) {
-                                    const label = context.label || '';
-                                    const value = context.parsed || 0;
-                                    return `${label}: ${value} hour`;
+            function displayChart(labels,data){
+                const chartData = {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: ['#b22222', '#eb5136', '#ffce56','#8B0000FF','#A52A2AFF'],
+                        hoverOffset: 4
+                    }]
+                };
+                const config = {
+                    type: 'doughnut',
+                    data: chartData,
+                    options: {
+                        responsive: false,
+                        cutout: '45%',
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function (context) {
+                                        const label = context.label || '';
+                                        const value = context.parsed || 0;
+                                        return `${label}: ${value} hour`;
+                                    }
                                 }
                             }
                         }
                     }
-                }
-            };
+                };
 
-            const myChart = new Chart(
-                document.getElementById('myChart'),
-                config
-            );
+                new Chart(
+                    document.getElementById('employeeChart'),
+                    config
+                );
+            }
+        </script>
+        <script th:inline="javascript">
+            const labels=['regular','over time','night shift', 'over time and night shift','break'];
+            const data=[
+                [[${statistics.regular}]],
+                [[${statistics.overTime}]],
+                [[${statistics.nightShift}]],
+                [[${statistics.overNight}]],
+                [[${statistics.breakTime}]],
+            ]
+            console.log(data);
+            displayChart(labels,data);
         </script>
         <label style="margin-left: 15px;margin-right: 15px;margin-top: auto; margin-bottom: auto; padding: 20px">Total working hour:
-            <h2>100 hour</h2>
+            <h2 th:text="${statistics.total}+'hour'"></h2>
         </label>
         <div class="statistic-data">
             <h3>Detail</h3>
             <div style="display: flex">
             <label>Regular:</label>
-            <h4>50 hour</h4>
+            <h4 th:text="${statistics.regular}+'hour'"></h4>
             </div>
             <br>
             <div style="display: flex">
                 <label>Night shift:</label>
-                <h4>35 hour</h4>
+                <h4 th:text="${statistics.nightShift}+'hour'"></h4>
             </div>
             <br>
             <div style="display: flex">
                 Overtime:
-                <h4>25 hour</h4>
+                <h4 th:text="${statistics.overTime}+'hour'"></h4>
+            </div>
+            <br>
+            <div style="display: flex">
+                Overtime and night shift:
+                <h4 th:text="${statistics.overNight}+'hour'"></h4>
             </div>
         </div>
     </div>
-    <a href="#">back</a>
+    <a th:href="@{/admin/main}">back</a>
 </div>
 </main>
 </body>

@@ -111,6 +111,7 @@ img.employee_main_menu{
     text-align: center;
     border: solid black 1px;
     border-collapse: collapse;
+    color: brown;
 }
 .employees_table tr:nth-child(even){
     background-color: navajowhite;

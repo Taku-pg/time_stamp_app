@@ -11,8 +11,7 @@ public class User {
     private String username;
     private String password;
     private String role;
-    @OneToOne
-    @JoinColumn(name = "employee_id")
+    @OneToOne(mappedBy = "user")
     private Employee employee;
 
     public User() {}

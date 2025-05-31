@@ -2,6 +2,8 @@ package org.example.timestampapp.Model.Entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class Employee {
     @Id
@@ -20,6 +22,8 @@ public class Employee {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="status_id")
     private Status status;
+    @OneToMany(mappedBy = "employee")
+    private List<WorkingHour> workingHour;
 
     public Employee() {}
 
@@ -85,6 +89,14 @@ public class Employee {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public List<WorkingHour> getWorkingHour() {
+        return workingHour;
+    }
+
+    public void setWorkingHour(List<WorkingHour> workingHour) {
+        this.workingHour = workingHour;
     }
 }
 

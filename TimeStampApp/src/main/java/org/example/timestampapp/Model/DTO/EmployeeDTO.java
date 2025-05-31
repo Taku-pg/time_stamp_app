@@ -10,7 +10,7 @@ public class EmployeeDTO {
 
     @Override
     public String toString() {
-        return firstName + " " + lastName + " " + email + " " + salary;
+        return employeeId+" "+firstName + " " + lastName + " " + email + " " + salary+" "+department;
     }
 
     public Long getEmployeeId() {
