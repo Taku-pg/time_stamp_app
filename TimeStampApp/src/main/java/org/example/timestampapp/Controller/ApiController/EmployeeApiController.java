@@ -1,7 +1,8 @@
-package org.example.timestampapp.Controller;
+package org.example.timestampapp.Controller.ApiController;
 
-import org.example.timestampapp.Model.Entity.Employee;
+import org.example.timestampapp.Model.DTO.EmployeeDTO;
 import org.example.timestampapp.Service.EmployeeService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,8 +15,11 @@ public class EmployeeApiController {
     }
 
     @GetMapping("/api/employee/{id}")
-    public Employee getEmployeeById(@PathVariable long id) {
-        Employee employee = employeeService.getEmployeeById(id);
-        return employee;
+    public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable long id) {
+        EmployeeDTO employee = employeeService.getEmployeeById(id);
+        if(employee==null)
+            System.out.println("Employee not found");
+        return ResponseEntity.ok(employee);
     }
 }
+

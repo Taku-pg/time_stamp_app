@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Register employee</title>
+</head>
+<body style="padding-top: 0">
+<div style="display: block">
+  <h3>Register new employee</h3>
+
+  <div class="register_employee">
+    <label>First name:<br>
+      <input type="text" required placeholder="John">
+    </label>
+    <br><br>
+    <label>Last name:<br>
+      <input type="text" required placeholder="Doe">
+    </label>
+    <br><br>
+    <label>Email address:<br>
+      <input type="email" required placeholder="johndoe@mail.com">
+    </label>
+    <br><br>
+    <label>Salary:<br>
+      <input type="number" required placeholder="30">
+      zl
+    </label>
+    <br><br>
+    <label>Department:<br>
+      <select >
+        <option>Sales</option>
+        <option>Manager</option>
+      </select>
+    </label>
+    <br><br>
+    <div style="text-align: center">
+      <button type="submit">Register</button>
+    </div>
+  </div>
+  <a href="#">back</a>
+</div>
+</body>
+</html>

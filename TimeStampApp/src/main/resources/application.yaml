@@ -1,6 +1,6 @@
 spring:
   application:
-    name=TimeStampApp
+    name: TimeStampApp
   datasource:
     url: jdbc:mysql://localhost:3306/timestampdb?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     username: timestamp
@@ -9,8 +9,13 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    show-sql: true
   sql:
     init:
       schema-locations: classpath:data/schema.sql
       data-locations: classpath:data/data.sql
       mode: never
+  security:
+    user:
+      name: user
+      password: yourStrong(!)Password

@@ -1,0 +1,123 @@
+html{
+    height: 100%;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 5%;
+    background: linear-gradient(45deg, white,antiquewhite);
+}
+
+/*login page*/
+img.login_page{
+    mix-blend-mode: multiply;
+}
+
+.login_container{
+    width: 200px;
+    #height: 200px;
+    padding: 10px;
+    margin: 0;
+    #max-width: fit-content;
+    max-height: fit-content;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+
+/*employee main menu*/
+img.employee_main_menu{
+    border: solid black 1px;
+    border-radius: 5px;
+}
+.employee_main_icons{
+    display: flex;
+    justify-content: center;
+}
+.employee_main_icon{
+    width: 150px;
+    height: 150px;
+    text-align: center;
+    background-color: white;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: solid 1px black;
+}
+
+.employee_current_status{
+    text-align: center;
+}
+
+/*employee personal information page*/
+
+.personal_main{
+    max-width: fit-content;
+    max-height: fit-content;
+    text-align: left;
+    padding: 20px;
+    border: solid black 1px;
+    border-radius: 5px;
+    background-color: white;
+}
+
+/*password change*/
+.password_change{
+    width: fit-content;
+    height: fit-content;
+    border-radius: 5px;
+    border: solid 1px black;
+    background-color: white;
+    padding: 10px;
+}
+
+/*Monthly history*/
+.history-table{
+    width: 400px;
+    margin: 0;
+    text-align:center;
+    padding: 2px;
+    border: solid black 1px;
+    border-collapse: collapse;
+}
+.history-table tr:nth-child(even){
+    background-color: navajowhite;
+    border-collapse: collapse;
+    border: solid black 1px;
+}
+
+/*monthly statistic*/
+.statistic-data{
+    margin: auto;
+    border-radius: 5px;
+    border: solid black 1px;
+    padding: 10px;
+    text-align: left;
+}
+
+/*register*/
+.register_employee{
+    padding: 10px;
+    border: black solid 1px;
+    border-radius: 5px;
+    background-color: white;
+}
+
+/*all employee info*/
+.employees_table{
+    text-align: center;
+    border: solid black 1px;
+    border-collapse: collapse;
+}
+.employees_table tr:nth-child(even){
+    background-color: navajowhite;
+    border-collapse: collapse;
+    border: solid black 1px;
+}
+
+.employees_table tr, .employees_table td, .employees_table th{
+    padding: 10px;
+}

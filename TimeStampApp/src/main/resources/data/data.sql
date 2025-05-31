@@ -14,7 +14,7 @@ INSERT INTO Status (Type) VALUES
     ('Work'),
     ('Break');
 
-INSERT INTO Employee (FirstName,LastName,Salary,Email,User_Id,Department_Id,Status_ID) VALUES
+INSERT INTO Employee (First_Name,Last_Name,Salary,Email,User_Id,Department_Id,Status_ID) VALUES
     ('John','Smith',80,'employee1@gmail.com',2,1,1),
     ('James','Bond',32,'employee2@gmail.com',3,2,1),
     ('Bob','Takahashi',26,'employee3@gmail.com',4,3,1);

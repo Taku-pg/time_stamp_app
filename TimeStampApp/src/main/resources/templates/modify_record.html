@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Modify employee record</title>
+</head>
+<body>
+<div style="display: block">
+    <h3>Modify employee working record</h3>
+    <br>
+<table class="employees_table">
+    <tr>
+        <th>Employee Id</th>
+        <th>Date</th>
+        <th>Start time</th>
+        <th>End time</th>
+        <th></th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>2025-03-12</td>
+        <td>
+            <label>
+                <input type="time" value="12:00">
+            </label>
+        </td>
+        <td>
+            <label>
+                <input type="time" value="05:00">
+            </label>
+        </td>
+        <td><button type="submit">modify</button></td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>2025-03-12</td>
+        <td>
+            <label>
+                <input type="time" value="00:00">
+            </label>
+        </td>
+        <td>
+            <label>
+                <input type="time" value="05:00">
+            </label>
+        </td>
+        <td><button type="submit">modify</button></td>
+    </tr>
+</table>
+    <br>
+    <a href="#">back</a>
+</div>
+</body>
+</html>

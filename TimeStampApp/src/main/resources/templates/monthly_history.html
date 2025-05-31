@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Monthly history</title>
+</head>
+<body>
+<div style="display: block">
+<h2> Your working history(2025-3)</h2>
+<div class="history">
+  <div style="text-align: right">
+    <label>Month:
+      <input type="month" placeholder="1">
+    </label>
+    <button type="submit"> search</button>
+  </div>
+  <br>
+
+  <table class="history-table">
+    <tr>
+      <th>Date</th>
+      <th>Start</th>
+      <th>End</th>
+      <th>Salary</th>
+    </tr>
+    <tr>
+      <td>2025-03-12</td>
+      <td>9:00</td>
+      <td>19:00</td>
+      <td>400 zl</td>
+    </tr>
+    <tr>
+      <td>2025-03-13</td>
+      <td>9:00</td>
+      <td>19:00</td>
+      <td>400 zl</td>
+    </tr>
+    <tr>
+      <td>2025-03-14</td>
+      <td>8:30</td>
+      <td>19:00</td>
+      <td>425 zl</td>
+    </tr>
+  </table>
+  <br><br>
+
+  <h4>Total salary of the month: 1225 zl</h4>
+  <a href="#">back</a>
+</div>
+</div>
+</body>
+</html>

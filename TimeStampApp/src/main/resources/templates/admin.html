@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+          xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+          layout:decorate="~{layout}">
+<head>
+    <!--<meta charset="UTF-8">-->
+    <title>Admin main page</title>
+</head>
+<body>
+<main layout:fragment="content">
+<div style="display: block; text-align: center">
+  <h2>Admin page</h2>
+  <div class="employee_main_icons">
+    <div class="employee_main_icon">
+      <img class="employee_main_menu" th:src="@{/image/personal.png}" alt="personal" width="50" height="50">
+      <br><br>
+      <a href="#">Register new employee</a>
+    </div>
+    <div class="employee_main_icon">
+      <img class="employee_main_menu" th:src="@{/image/people.png}" alt="coin" width="50" height="50">
+      <br><br>
+      <a href="#">See all employee information</a>
+    </div>
+    <div class="employee_main_icon">
+      <img class="employee_main_menu" th:src="@{/image/statistic_b.png}" alt="statistic" width="50" height="50">
+      <br><br>
+      <a href="#">Monthly department's statistic</a>
+    </div>
+    <div class="employee_main_icon">
+      <img class="employee_main_menu" th:src="@{/image/checkmark.png}" alt="statistic" width="50" height="50">
+      <br><br>
+      <a href="#">Check unauthorized record</a>
+    </div>
+  </div>
+</div>
+</main>
+</body>
+</html>

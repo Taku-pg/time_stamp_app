@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Personal Information</title>
+</head>
+<body>
+<div style="display: block">
+    <h3>Your personal information</h3>
+    <div style="display: block">
+        <div class="personal_main">
+            <ul>
+                <li>
+                    <label>First Name:
+                        <br>
+                        <input type="text" readonly value="John">
+                    </label>
+                </li>
+                <li>
+                    <label>Last Name:
+                        <br>
+                        <input type="text" readonly value="Doe">
+                    </label>
+                </li>
+                <li>
+                    <label>Email:
+                        <br>
+                        <input type="text" readonly value="johndoe@mail.com">
+                    </label>
+                </li>
+                <li><label>Base salary:
+                    <br>
+                    <input type="number" readonly value=30>zl
+                </label></li>
+                <li><label>Department:
+                    <br>
+                    <input type="text" readonly value="Sales">
+                </label></li>
+            </ul>
+
+            <a href="#">Change password</a>
+
+        </div>
+        <a href="#">back</a>
+    </div>
+</div>
+</body>
+</html>

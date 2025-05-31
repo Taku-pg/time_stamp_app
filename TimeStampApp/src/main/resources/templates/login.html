@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Login menu</title>
+</head>
+<body style="padding-top: 10%">
+<img class="login_page" src="image/images.jpg" alt="img">
+<img class="login_page" src="image/images.jpg" alt="img">
+<div class="login_container">
+    <h3 style="text-align: center">Login</h3>
+    <label style="text-align: left">User name<br>
+        <input type="text" name="userName" placeholder="user name">
+    </label>
+    <br><br>
+    <label style="text-align: left">Password<br>
+        <input type="password" name="password">
+    </label>
+    <br><br>
+    <div style="text-align: center">
+        <button style="vertical-align: center" type="submit">login</button>
+    </div>
+</div>
+<img class="login_page" th:src="@{/image/images.jpg}" alt="img">
+<img class="login_page" th:src="@{/image/images.jpg}" alt="img">
+
+</body>
+</html>

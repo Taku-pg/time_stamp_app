@@ -1,23 +1,23 @@
 /*ALTER TABLE Break
-DROP FOREIGN KEY Break_Working_hour;
+DROP FOREIGN KEY Break_Working_hour;*/
 
-ALTER TABLE Employee
-DROP FOREIGN KEY Employee_Department;
+/*ALTER TABLE Employee
+DROP FOREIGN KEY Employee_Department;*/
 
-ALTER TABLE Employee
+/*ALTER TABLE Employee
 DROP FOREIGN KEY Employee_Status;
 
 ALTER TABLE Employee
-DROP FOREIGN KEY Employee_User;
+DROP FOREIGN KEY Employee_User;*/
 
-ALTER TABLE Working_hour
-DROP FOREIGN KEY Working_hour_Employee;
+/*ALTER TABLE Working_hour
+DROP FOREIGN KEY Working_hour_Employee;*/
 
-ALTER TABLE Working_hour_segment
-DROP FOREIGN KEY Working_hour_segment_Working_hour;
+/*ALTER TABLE Working_hour_segment
+DROP FOREIGN KEY Working_hour_segment_Working_hour;*/
 
 -- tables
-
+/*SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS Break;
 
 DROP TABLE IF EXISTS Department;
@@ -30,15 +30,17 @@ DROP TABLE IF EXISTS User;
 
 DROP TABLE IF EXISTS Working_hour;
 
-DROP TABLE IF EXISTS Working_hour_segment;*/
+DROP TABLE IF EXISTS Working_hour_segment;
+
+SET FOREIGN_KEY_CHECKS = 1;*/
 
 
 -- tables
 -- Table: Break
 CREATE TABLE Break (
     Id bigint NOT NULL AUTO_INCREMENT,
-    StartTime date  NOT NULL,
-    EndTime date  NULL,
+    Start_Time date  NOT NULL,
+    End_Time date  NULL,
     Working_hour_Id bigint  NOT NULL,
     CONSTRAINT Break_pk PRIMARY KEY (Id)
 );
@@ -53,8 +55,8 @@ CREATE TABLE Department (
 -- Table: Employee
 CREATE TABLE Employee (
     Id bigint NOT NULL AUTO_INCREMENT,
-    FirstName varchar(20)  NOT NULL,
-    LastName varchar(20)  NOT NULL,
+    First_Name varchar(20)  NOT NULL,
+    Last_Name varchar(20)  NOT NULL,
     Salary int  NOT NULL,
     Email varchar(50)  NOT NULL,
     User_Id bigint  NOT NULL,
@@ -73,7 +75,7 @@ CREATE TABLE Status (
 -- Table: User
 CREATE TABLE `User` (
     Id bigint NOT NULL AUTO_INCREMENT,
-    UserName varchar(20)  NOT NULL,
+    Username varchar(20)  NOT NULL,
     Password varchar(200)  NOT NULL,
     `Role` varchar(15)  NOT NULL,
     CONSTRAINT User_pk PRIMARY KEY (Id)
@@ -82,9 +84,9 @@ CREATE TABLE `User` (
 -- Table: Working_hour
 CREATE TABLE Working_hour (
     Id bigint NOT NULL AUTO_INCREMENT,
-    StartTime date  NOT NULL,
-    EndTime date  NULL,
-    AutoLeave bool  NOT NULL,
+    Start_Time date  NOT NULL,
+    End_Time date  NULL,
+    Auto_Leave bool  NOT NULL,
     Employee_Id bigint  NOT NULL,
     CONSTRAINT Working_hour_pk PRIMARY KEY (Id)
 );
