@@ -114,8 +114,8 @@ img.employee_main_menu{
 }
 .employees_table tr:nth-child(even){
     background-color: navajowhite;
-    border-collapse: collapse;
-    border: solid black 1px;
+    /*border-collapse: collapse;
+    border: solid black 1px;*/
 }
 
 .employees_table tr, .employees_table td, .employees_table th{

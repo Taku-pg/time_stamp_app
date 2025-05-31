@@ -10,7 +10,7 @@ public class Employee {
     private String firstName;
     private String lastName;
     private String email;
-    private int salary;
+    private Integer salary;
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -55,11 +55,11 @@ public class Employee {
         this.email = email;
     }
 
-    public int getSalary() {
+    public Integer getSalary() {
         return salary;
     }
 
-    public void setSalary(int salary) {
+    public void setSalary(Integer salary) {
         this.salary = salary;
     }
 

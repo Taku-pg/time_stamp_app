@@ -3,7 +3,6 @@
           xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
           layout:decorate="~{layout}">
 <head>
-    <!--<meta charset="UTF-8">-->
     <title>Admin main page</title>
 </head>
 <body>
@@ -14,12 +13,12 @@
     <div class="employee_main_icon">
       <img class="employee_main_menu" th:src="@{/image/personal.png}" alt="personal" width="50" height="50">
       <br><br>
-      <a href="#">Register new employee</a>
+      <a href="register.html">Register new employee</a>
     </div>
     <div class="employee_main_icon">
       <img class="employee_main_menu" th:src="@{/image/people.png}" alt="coin" width="50" height="50">
       <br><br>
-      <a href="#">See all employee information</a>
+      <a th:href="@{/admin/employee-list}">See all employee information</a>
     </div>
     <div class="employee_main_icon">
       <img class="employee_main_menu" th:src="@{/image/statistic_b.png}" alt="statistic" width="50" height="50">

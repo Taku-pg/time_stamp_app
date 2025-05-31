@@ -5,10 +5,13 @@ public class EmployeeDTO {
     private String firstName;
     private String lastName;
     private String email;
-    private String role;
-    private String password;
+    private Integer salary;
     private String department;
-    private String status;
+
+    @Override
+    public String toString() {
+        return firstName + " " + lastName + " " + email + " " + salary;
+    }
 
     public Long getEmployeeId() {
         return employeeId;
@@ -41,21 +44,12 @@ public class EmployeeDTO {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public String getRole() {
-        return role;
+    public Integer getSalary() {
+        return salary;
     }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setSalary(Integer salary) {
+        this.salary = salary;
     }
 
     public String getDepartment() {
@@ -64,13 +58,5 @@ public class EmployeeDTO {
 
     public void setDepartment(String department) {
         this.department = department;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 }

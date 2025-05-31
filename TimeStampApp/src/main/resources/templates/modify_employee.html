@@ -6,31 +6,34 @@
     <title>Edit employee information</title>
 </head>
 <body style="padding-top: 0">
+<main layout:fragment="content">
 <div style="display: block">
   <h3>Edit employee information</h3>
-
+  <form th:action="@{/admin/modify-employee}" method="post" th:object="${employee}">
   <div class="register_employee">
     <label>First name:<br>
-      <input type="text" required value="John">
+      <input type="text" required th:value="*{firstName}">
     </label>
     <br><br>
     <label>Last name:<br>
-      <input type="text" required value="Doe">
+      <input type="text" required th:value="*{lastName}">
     </label>
     <br><br>
     <label>Email address:<br>
-      <input type="email" required value="jondoe@mail.com">
+      <input type="email" required th:value="*{email}">
     </label>
     <br><br>
     <label>Salary:<br>
-      <input type="number" required value="30">
+      <input type="number" required th:value="*{salary}">
       zl
     </label>
     <br><br>
     <label>Department:<br>
       <select >
-        <option>Sales</option>
-        <option>Manager</option>
+        <option
+                th:each="department:${departments}"
+                th:text="${department}"
+                th:value="${department}"></option>
       </select>
     </label>
     <br><br>
@@ -38,7 +41,9 @@
       <button type="submit">modify</button>
     </div>
   </div>
-  <a href="#">back</a>
+  </form>
+  <a th:href="@{/admin/main}">back</a>
 </div>
+</main>
 </body>
 </html>
