@@ -7,7 +7,6 @@ public class WorkingHourSegment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String type;
     private double duration;
     @ManyToOne
     @JoinColumn(name="working_hour_id")
@@ -18,6 +17,12 @@ public class WorkingHourSegment {
 
     public WorkingHourSegment() {}
 
+    public WorkingHourSegment(double duration, WorkingHour workingHour, SegmentType segmentType) {
+        this.duration = duration;
+        this.workingHour = workingHour;
+        this.segmentType = segmentType;
+    }
+
     public Long getId() {
         return id;
     }
@@ -26,13 +31,6 @@ public class WorkingHourSegment {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 
     public double getDuration() {
         return duration;

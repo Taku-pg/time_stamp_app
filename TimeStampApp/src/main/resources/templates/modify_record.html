@@ -7,51 +7,44 @@
 </head>
 <body>
 <main layout:fragment="content">
-<div style="display: block">
-    <h3>Modify employee working record</h3>
-    <br>
-<table class="employees_table">
-    <tr>
-        <th>Employee Id</th>
-        <th>Date</th>
-        <th>Start time</th>
-        <th>End time</th>
-        <th></th>
-    </tr>
-    <tr>
-        <td>1</td>
-        <td>2025-03-12</td>
-        <td>
-            <label>
-                <input type="time" value="12:00">
-            </label>
-        </td>
-        <td>
-            <label>
-                <input type="time" value="05:00">
-            </label>
-        </td>
-        <td><button type="submit">modify</button></td>
-    </tr>
-    <tr>
-        <td>2</td>
-        <td>2025-03-12</td>
-        <td>
-            <label>
-                <input type="time" value="00:00">
-            </label>
-        </td>
-        <td>
-            <label>
-                <input type="time" value="05:00">
-            </label>
-        </td>
-        <td><button type="submit">modify</button></td>
-    </tr>
-</table>
-    <br>
-    <a href="#">back</a>
-</div>
+    <div style="display: block">
+        <h3>Modify employee working record</h3>
+        <br>
+        <div th:if="${records}">
+            <table class="employees_table">
+                <tr>
+                    <th>Employee Id</th>
+                    <th>Date</th>
+                    <th>Start time</th>
+                    <th>End time</th>
+                    <th></th>
+                </tr>
+                    <tr th:each="record:${records}">
+                        <form th:action="@{/admin/modify-record}" method="post">
+                            <input type="hidden" name="workingHourId" th:value="${record.workingHourId}">
+
+                        <td th:text="${record.employeeId}"></td>
+                        <td th:text="${record.date}"></td>
+                        <td>
+                            <label>
+                                <input type="datetime-local" name="startTime" th:value="${record.startTime}">
+                            </label>
+                        </td>
+                        <td>
+                            <label>
+                                <input type="datetime-local" name="endTime" th:value="${record.endTime}">
+                            </label>
+                        </td>
+                        <td>
+                            <button type="submit">modify</button>
+                        </td>
+                        </form>
+                    </tr>
+            </table>
+        </div>
+        <br>
+        <a th:href="@{/admin/main}">back</a>
+    </div>
 </main>
 </body>
 </html>

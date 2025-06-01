@@ -9,10 +9,8 @@ import org.example.timestampapp.Model.Repository.SegmentTypeRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Service
 public class WorkingHourMapper {
@@ -111,5 +109,19 @@ public class WorkingHourMapper {
         hours.put("breakHours",breakHours);
         hours.put("totalHours",totalHours);
         return hours;
+    }
+
+    public List<FixRecordDTO> mapFixRecord(List<WorkingHour> autoLeaveRecords) {
+        List<FixRecordDTO> records=new ArrayList<>();
+        for(WorkingHour workingHour : autoLeaveRecords) {
+            FixRecordDTO fixRecordDTO=new FixRecordDTO();
+            fixRecordDTO.setEmployeeId(workingHour.getEmployee().getId());
+            fixRecordDTO.setWorkingHourId(workingHour.getId());
+            fixRecordDTO.setDate(workingHour.getStartTime().toLocalDate());
+            fixRecordDTO.setStartTime(workingHour.getStartTime());
+            fixRecordDTO.setEndTime(workingHour.getEndTime());
+            records.add(fixRecordDTO);
+        }
+        return records;
     }
 }

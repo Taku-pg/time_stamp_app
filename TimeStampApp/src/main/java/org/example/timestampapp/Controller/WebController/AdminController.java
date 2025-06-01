@@ -3,20 +3,21 @@ package org.example.timestampapp.Controller.WebController;
 import org.example.timestampapp.Model.DTO.DepartmentStatisticsDTO;
 import org.example.timestampapp.Model.DTO.EmployeeDTO;
 import org.example.timestampapp.Model.DTO.EmployeeStatisticsDTO;
+import org.example.timestampapp.Model.DTO.FixRecordDTO;
 import org.example.timestampapp.Service.DepartmentService;
 import org.example.timestampapp.Service.EmployeeService;
 import org.example.timestampapp.Service.WorkingHourService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
+@RequestMapping("/admin")
 public class AdminController {
 
     private final EmployeeService employeeService;
@@ -31,12 +32,12 @@ public class AdminController {
         this.workingHourService = workingHourService;
     }
 
-    @GetMapping("/admin/main")
+    @GetMapping("/main")
     public String adminMain() {
         return "admin";
     }
 
-    @GetMapping("/admin/employee-list")
+    @GetMapping("/employee-list")
     public String getEmployeeList(Model model) {
         List<EmployeeDTO> employees=employeeService.getAllEmployees();
         if(employees.isEmpty()) {
@@ -49,7 +50,7 @@ public class AdminController {
         return "all_employee";
     }
 
-    @GetMapping("/admin/employee-statistics")
+    @GetMapping("/employee-statistics")
     public String getEmployeeStatistic(Model model, @RequestParam(name="employeeId") Long employeeId) {
         int year= LocalDate.now().getYear();
         int month= LocalDate.now().getMonthValue();
@@ -59,7 +60,7 @@ public class AdminController {
         return "employee_statistics";
     }
 
-    @GetMapping("/admin/department-statistics")
+    @GetMapping("/department-statistics")
     public String getDepartmentStatistic(Model model) {
         int year= LocalDate.now().getYear();
         int month= LocalDate.now().getMonthValue();
@@ -72,7 +73,7 @@ public class AdminController {
         return "department_statistics";
     }
 
-    @GetMapping("/admin/modify-employee")
+    @GetMapping("/modify-employee")
     public String modifyEmployee(Model model, @ModelAttribute EmployeeDTO employee) {
         model.addAttribute("employee", employee);
         List<String> departments=departmentService.getAllDepartmentName();
@@ -80,14 +81,34 @@ public class AdminController {
         return "modify_employee";
     }
 
-    @PostMapping("/admin/modify-employee")
+    @PostMapping("/modify-employee")
     public String modifyEmployee(@ModelAttribute EmployeeDTO employee) {
         System.out.println(employee);
         employeeService.updateEmployee(employee);
         return "admin";
     }
 
-    @PostMapping("/admin/delete-employee")
+    @GetMapping("/modify-record")
+    public String modifyRecord(Model model) {
+        List<FixRecordDTO> records=workingHourService.getFixRecord();
+        if(!records.isEmpty())
+            model.addAttribute("records", records);
+        return "modify_record";
+    }
+
+    @PostMapping("/modify-record")
+    public String modifyRecord(Model model,
+                               @RequestParam(name = "workingHourId") Long workingHourId,
+                               @RequestParam(name = "startTime") LocalDateTime startTime,
+                               @RequestParam(name = "endTime") LocalDateTime endTime) {
+        List<FixRecordDTO> records=workingHourService.getFixRecord();
+        if(!records.isEmpty())
+            model.addAttribute("records", records);
+        return "modify_record";
+    }
+
+
+    @PostMapping("/delete-employee")
     public String deleteEmployee(@RequestParam(name = "employeeId") Long employeeId) {
         System.out.println(employeeId);
         employeeService.deleteEmployee(employeeId);

@@ -16,7 +16,7 @@
       <a href="register.html">Register new employee</a>
     </div>
     <div class="employee_main_icon">
-      <img class="employee_main_menu" th:src="@{/image/people.png}" alt="coin" width="50" height="50">
+      <img class="employee_main_menu" th:src="@{/image/people.png}" alt="people" width="50" height="50">
       <br><br>
       <a th:href="@{/admin/employee-list}">See all employee information</a>
     </div>
@@ -26,9 +26,9 @@
       <a th:href="@{/admin/department-statistics}">Monthly department's statistic</a>
     </div>
     <div class="employee_main_icon">
-      <img class="employee_main_menu" th:src="@{/image/checkmark.png}" alt="statistic" width="50" height="50">
+      <img class="employee_main_menu" th:src="@{/image/checkmark.png}" alt="check" width="50" height="50">
       <br><br>
-      <a href="#">Check unauthorized record</a>
+      <a th:href="@{/admin/modify-record}">Check unauthorized record</a>
     </div>
   </div>
 </div>

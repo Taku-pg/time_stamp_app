@@ -2,7 +2,7 @@ spring:
   application:
     name: TimeStampApp
   datasource:
-    url: jdbc:mysql://localhost:3306/timestampdb?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/timestampdb?useSSL=false&serverTimezone=CET&allowPublicKeyRetrieval=true
     username: timestamp
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver

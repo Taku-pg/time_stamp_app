@@ -2,10 +2,14 @@ package org.example.timestampapp.Service;
 
 import org.example.timestampapp.Model.DTO.DepartmentStatisticsDTO;
 import org.example.timestampapp.Model.DTO.EmployeeStatisticsDTO;
+import org.example.timestampapp.Model.DTO.FixRecordDTO;
 import org.example.timestampapp.Model.Entity.WorkingHour;
 import org.example.timestampapp.Model.Repository.WorkingHourRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,6 +30,20 @@ public class WorkingHourService {
     public DepartmentStatisticsDTO getDeptStatistics(String dName, int year, int month) {
         List<WorkingHour> monthlyRecords=workingHourRepository.findDetailWorkingHourByDepartmentName(dName,year,month);
         return workingHourMapper.mapDeptStatistics(monthlyRecords,year,month,dName);
+    }
+
+    public List<FixRecordDTO> getFixRecord() {
+        return workingHourMapper.mapFixRecord(workingHourRepository.findWorkingHourWithAutoLeave());
+    }
+
+    @Transactional
+    public void updateWorkingHour(Long workingHourId,LocalDateTime startTime,LocalDateTime endTime) {
+        WorkingHour target=workingHourRepository.findById(workingHourId).orElse(null);
+        if(target==null)
+            throw new RuntimeException("Internal Error");
+        target.setStartTime(startTime);
+        target.setEndTime(endTime);
+        workingHourRepository.save(target);
     }
 
 }
