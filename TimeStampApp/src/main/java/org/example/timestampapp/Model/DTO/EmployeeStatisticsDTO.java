@@ -1,10 +1,6 @@
 package org.example.timestampapp.Model.DTO;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
-
-import java.time.LocalDateTime;
-
-public class EmployeeWorkingStatisticsDTO {
+public class EmployeeStatisticsDTO {
     private Long employeeId;
     private Double regular;
     private Double nightShift;

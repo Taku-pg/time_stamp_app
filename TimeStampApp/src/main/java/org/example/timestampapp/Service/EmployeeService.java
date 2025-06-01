@@ -1,8 +1,7 @@
 package org.example.timestampapp.Service;
 
 import org.example.timestampapp.Model.DTO.EmployeeDTO;
-import org.example.timestampapp.Model.DTO.EmployeeWorkingStatisticsDTO;
-import org.example.timestampapp.Model.Entity.Department;
+import org.example.timestampapp.Model.DTO.EmployeeStatisticsDTO;
 import org.example.timestampapp.Model.Entity.Employee;
 import org.example.timestampapp.Model.Repository.DepartmentRepository;
 import org.example.timestampapp.Model.Repository.EmployeeRepository;
@@ -48,8 +47,8 @@ public class EmployeeService {
         return employeeDTOS;
     }
 
-    public EmployeeWorkingStatisticsDTO getEmployeeWorkingStatistics(long employeeId, int year, int month) {
-        EmployeeWorkingStatisticsDTO record = workingHourService.getWorkingHourStatistics(employeeId,year,month);
+    public EmployeeStatisticsDTO getEmployeeWorkingStatistics(long employeeId, int year, int month) {
+        EmployeeStatisticsDTO record = workingHourService.getWorkingHourStatistics(employeeId,year,month);
         return record;
     }
 

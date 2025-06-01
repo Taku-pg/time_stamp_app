@@ -1,0 +1,39 @@
+let chart=null;
+function displayChart(canvasId,labels,data){
+    const canvas=document.getElementById(canvasId);
+    if(!canvas)
+        return;
+
+    if(chart!=null)
+        chart.destroy();
+
+    const chartData = {
+        labels: labels,
+        datasets: [{
+            data: data,
+            backgroundColor: ['#b22222', '#eb5136', '#ffce56','#8B0000FF','#A52A2AFF'],
+            hoverOffset: 4
+        }]
+    };
+    const config = {
+        type: 'doughnut',
+        data: chartData,
+        options: {
+            responsive: false,
+            cutout: '45%',
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            const label = context.label || '';
+                            const value = context.parsed || 0;
+                            return `${label}: ${value} hour`;
+                        }
+                    }
+                }
+            }
+        }
+    };
+
+    chart=new Chart(canvas, config);
+}

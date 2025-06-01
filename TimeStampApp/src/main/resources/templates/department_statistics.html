@@ -9,76 +9,104 @@
 <body style="padding-top: 0">
 <main layout:fragment="content">
 <div style="display: block; margin: auto">
-  <h2> Sales department working statistic(2025-3)</h2>
+  <h2 id="title" th:text="${statistics.name}+'department working statistic('+${statistics.year}+'-'+${statistics.month}+')'"></h2>
   <div style="text-align: right">
-    <label>Department:
-      <select name="department" id="department">
-        <option>Sales</option>
-        <option>Manage</option>
+    <label>Department:<br>
+      <select id="department">
+        <option
+                th:each="department:${departments}"
+                th:text="${department}"
+                th:value="${department}"></option>
       </select>
     </label>
     <label>Month:
-      <input type="month" placeholder="1">
+      <input type="month" id="month">
     </label>
-    <button type="submit"> search</button>
+    <button onclick="search()"> search</button>
   </div>
   <div style="display: flex">
-    <canvas id="myChart" style="height: 350px;width: 350px; padding: 10px"></canvas>
+    <canvas id="deptChart" style="height: 350px;width: 350px; padding: 10px"></canvas>
+    <script src="/js/chart-display.js"></script>
     <script>
-      const chartData = {
-        labels: ['Regular', 'Night shift', 'Overtime'],
-        datasets: [{
-          data: [270, 150, 57],
-          backgroundColor: ['#b22222', '#eb5136', '#ffce56'],
-          hoverOffset: 4
-        }]
-      };
+      function search(){
+        const period=document.getElementById('month').value;
+        console.log(period);
+        const name= document.getElementById("department").value;
+        console.log(name);
 
-      const config = {
-        type: 'doughnut',
-        data: chartData,
-        options: {
-          responsive: false,
-          cutout: '45%',
-          plugins: {
-            tooltip: {
-              callbacks: {
-                label: function (context) {
-                  const label = context.label || '';
-                  const value = context.parsed || 0;
-                  return `${label}: ${value} hour`;
-                }
-              }
-            }
-          }
-        }
-      };
+        const [year, month]=period.split('-');
 
-      const myChart = new Chart(
-              document.getElementById('myChart'),
-              config
-      );
+        fetch(`/api/department/${name}/statistics/${year}/${month}`)
+                .then(response=>{
+                  if(!response.ok) throw new Error("Not data found in specified month");
+                  return response.json()
+                })
+                .then(data=>{
+                  console.log(data)
+                  document.getElementById("title").textContent='Working statistics ('+period+')';
+                  document.getElementById("department").textContent=data.name;
+                  document.getElementById("regular").textContent=data.regular+' hour';
+                  document.getElementById("night").textContent=data.nightShift+' hour';
+                  document.getElementById("overtime").textContent=data.overTime+' hour';
+                  document.getElementById("overnight").textContent=data.overNight+' hour';
+                  document.getElementById("total").textContent=data.total+' hour';
+                  document.getElementById("breaktime").textContent=data.breakTime+' hour';
+
+                  const labels=['regular','over time','night shift', 'over time and night shift','break'];
+                  const chartData=[
+                    data.regular,
+                    data.overTime,
+                    data.nightShift,
+                    data.overNight,
+                    data.breakTime
+                  ]
+                  console.log(chartData);
+                  displayChart("deptChart",labels,chartData);
+                });
+      }
+    </script>
+    <script th:inline="javascript">
+      const labels=['regular','over time','night shift', 'over time and night shift','break'];
+      const data=[
+        [[${statistics.regular}]],
+        [[${statistics.overTime}]],
+        [[${statistics.nightShift}]],
+        [[${statistics.overNight}]],
+        [[${statistics.breakTime}]],
+      ]
+      console.log(data);
+      displayChart("deptChart",labels,data);
     </script>
 
     <div class="statistic-data">
       <h3>Detail</h3>
       <div style="display: flex">
         <label>Regular:</label>
-        <h4>270 hour</h4>
+        <h4 th:text="${statistics.regular}+' hour'" id="regular"></h4>
       </div>
       <br>
       <div style="display: flex">
         <label>Night shift:</label>
-        <h4>150 hour</h4>
+        <h4 th:text="${statistics.nightShift}+' hour'" id="night"></h4>
       </div>
       <br>
       <div style="display: flex">
         Overtime:
-        <h4>57 hour</h4>
+        <h4 th:text="${statistics.overTime}+' hour'" id="overtime"></h4>
+      </div>
+      <br>
+      <div style="display: flex">
+        Overtime and night shift:
+        <h4 th:text="${statistics.overNight}+' hour'" id="overnight"></h4>
+      </div>
+      <br>
+      <div style="display: flex">
+        Total break time:
+        <h4 th:text="${statistics.breakTime}+' hour'" id="breaktime"></h4>
       </div>
     </div>
   </div>
-  <a href="#">back</a>
+  <a th:href="@{/admin/main}">back</a>
 </div>
 </main>
 </body>

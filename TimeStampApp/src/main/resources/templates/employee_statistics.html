@@ -19,46 +19,8 @@
     </div>
     <div style="display: flex">
         <canvas id="employeeChart" style="height: 350px;width: 350px; padding: 10px"></canvas>
+        <script src="/js/chart-display.js"></script>
         <script>
-            let empChart=null;
-            function displayChart(labels,data){
-                if(empChart!=null)
-                    empChart.destroy();
-
-                const chartData = {
-                    labels: labels,
-                    datasets: [{
-                        data: data,
-                        backgroundColor: ['#b22222', '#eb5136', '#ffce56','#8B0000FF','#A52A2AFF'],
-                        hoverOffset: 4
-                    }]
-                };
-                const config = {
-                    type: 'doughnut',
-                    data: chartData,
-                    options: {
-                        responsive: false,
-                        cutout: '45%',
-                        plugins: {
-                            tooltip: {
-                                callbacks: {
-                                    label: function (context) {
-                                        const label = context.label || '';
-                                        const value = context.parsed || 0;
-                                        return `${label}: ${value} hour`;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                };
-
-                empChart=new Chart(
-                    document.getElementById('employeeChart'),
-                    config
-                );
-            }
-
             function search(){
                 const period=document.getElementById('month').value;
                 console.log(period);
@@ -92,7 +54,7 @@
                             data.breakTime
                         ]
                         console.log(chartData);
-                        displayChart(labels,chartData);
+                        displayChart("employeeChart",labels,chartData);
                     });
             }
         </script>
@@ -106,7 +68,7 @@
                 [[${statistics.breakTime}]],
             ]
             console.log(data);
-            displayChart(labels,data);
+            displayChart("employeeChart",labels,data);
         </script>
         <label style="margin-left: 15px;margin-right: 15px;margin-top: auto; margin-bottom: auto; padding: 20px">Total working hour:
             <h2 th:text="${statistics.total}+' hour'" id="total"></h2>

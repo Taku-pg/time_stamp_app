@@ -14,4 +14,10 @@ public interface WorkingHourRepository extends CrudRepository<WorkingHour, Long>
     List<WorkingHour> findDetailWorkingHourByEmployeeId(@Param("id") long employeeId,
                                                         @Param("year") int year,
                                                         @Param("month") int month);
+    @Query("SELECT w FROM WorkingHour w LEFT JOIN w.segments " +
+            "LEFT JOIN FETCH w.breaks " +
+            "WHERE w.employee.department.name= :dName AND YEAR(w.startTime) = :year AND MONTH(w.startTime) = :month")
+    List<WorkingHour> findDetailWorkingHourByDepartmentName(@Param("dName") String dName,
+                                                        @Param("year") int year,
+                                                        @Param("month") int month);
 }

@@ -1,6 +1,6 @@
 package org.example.timestampapp.Service;
 
-import org.example.timestampapp.Model.DTO.EmployeeWorkingStatisticsDTO;
+import org.example.timestampapp.Model.DTO.*;
 import org.example.timestampapp.Model.Entity.Break;
 import org.example.timestampapp.Model.Entity.SegmentType;
 import org.example.timestampapp.Model.Entity.WorkingHour;
@@ -9,8 +9,9 @@ import org.example.timestampapp.Model.Repository.SegmentTypeRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -22,21 +23,53 @@ public class WorkingHourMapper {
         this.segmentTypeRepository = segmentTypeRepository;
     }
 
-    public EmployeeWorkingStatisticsDTO mapStatistics(List<WorkingHour> monthlyRecord,int year,int month,Long employeeId) {
-        EmployeeWorkingStatisticsDTO recordDTO=new EmployeeWorkingStatisticsDTO();
+    public EmployeeStatisticsDTO mapEmpStatistics(List<WorkingHour> monthlyRecord, int year, int month, Long employeeId) {
+        EmployeeStatisticsDTO recordDTO=new EmployeeStatisticsDTO();
+
+        Map<String,Double> hours=calculateHours(monthlyRecord);
+        recordDTO.setEmployeeId(employeeId);
+        recordDTO.setRegular(hours.get("regular"));
+        recordDTO.setOverTime(hours.get("overTime"));
+        recordDTO.setNightShift(hours.get("night"));
+        recordDTO.setOverNight(hours.get("overNight"));
+        recordDTO.setBreakTime(hours.get("breakHours"));
+        recordDTO.setTotal(hours.get("totalHours"));
+        recordDTO.setYear(year);
+        recordDTO.setMonth(month);
+
+        return recordDTO;
+    }
+
+    public DepartmentStatisticsDTO mapDeptStatistics(List<WorkingHour> monthlyRecord, int year, int month, String dName) {
+        DepartmentStatisticsDTO recordDTO=new DepartmentStatisticsDTO();
+        Map<String,Double>hours=calculateHours(monthlyRecord);
+
+        recordDTO.setName(dName);
+        recordDTO.setRegular(hours.get("regular"));
+        recordDTO.setOverTime(hours.get("overTime"));
+        recordDTO.setNightShift(hours.get("night"));
+        recordDTO.setOverNight(hours.get("overNight"));
+        recordDTO.setBreakTime(hours.get("breakHours"));
+        recordDTO.setTotal(hours.get("totalHours"));
+        recordDTO.setYear(year);
+        recordDTO.setMonth(month);
+
+        return recordDTO;
+    }
+
+    private Map<String,Double> calculateHours(List<WorkingHour> monthlyRecord) {
         double regular=0;
         double overTime=0;
         double night=0;
         double overNight=0;
         double breakHours=0;
+
         for(WorkingHour workingHour : monthlyRecord) {
             //calculate working hours
             List<WorkingHourSegment> segments=workingHour.getSegments();
             for(WorkingHourSegment segment : segments) {
-                System.out.println(segment.getId());
                 Optional<SegmentType> type=segmentTypeRepository.findById(segment.getSegmentType().getId());
                 if(type.isPresent()) {
-                    System.out.println("type:"+type.get().getName());
                     String typeName=type.get().getName();
                     switch(typeName) {
                         case "regular":
@@ -54,11 +87,6 @@ public class WorkingHourMapper {
                     }
                 }
             }
-            System.out.println(regular);
-            System.out.println(overTime);
-            System.out.println(night);
-            System.out.println(overNight);
-            System.out.println(breakHours);
 
             //calculate break time
             List<Break> breaks=workingHour.getBreaks();
@@ -75,16 +103,14 @@ public class WorkingHourMapper {
 
         double totalHours=regular+overTime+night+overNight-breakHours;
 
-        recordDTO.setEmployeeId(employeeId);
-        recordDTO.setRegular(regular);
-        recordDTO.setOverTime(overTime);
-        recordDTO.setNightShift(night);
-        recordDTO.setOverNight(overNight);
-        recordDTO.setBreakTime(breakHours);
-        recordDTO.setTotal(totalHours);
-        recordDTO.setYear(year);
-        recordDTO.setMonth(month);
+        Map<String,Double> hours= new HashMap<>();
 
-        return recordDTO;
+        hours.put("regular",regular);
+        hours.put("overtime",overTime);
+        hours.put("night",night);
+        hours.put("overNight",overNight);
+        hours.put("breakHours",breakHours);
+        hours.put("totalHours",totalHours);
+        return hours;
     }
 }

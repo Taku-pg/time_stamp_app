@@ -1,7 +1,7 @@
 package org.example.timestampapp.Controller.ApiController;
 
 import org.example.timestampapp.Model.DTO.EmployeeDTO;
-import org.example.timestampapp.Model.DTO.EmployeeWorkingStatisticsDTO;
+import org.example.timestampapp.Model.DTO.EmployeeStatisticsDTO;
 import org.example.timestampapp.Service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,10 +31,10 @@ public class EmployeeApiController {
     }
 
     @GetMapping("/{id}/statistics/{year}/{month}")
-    public ResponseEntity<EmployeeWorkingStatisticsDTO> getEmployeeWorkingStatistics(@PathVariable long id,
-                                                                                     @PathVariable int year,
-                                                                                     @PathVariable int month) {
-        EmployeeWorkingStatisticsDTO statistics=employeeService.getEmployeeWorkingStatistics(id,year,month);
+    public ResponseEntity<EmployeeStatisticsDTO> getEmployeeWorkingStatistics(@PathVariable long id,
+                                                                              @PathVariable int year,
+                                                                              @PathVariable int month) {
+        EmployeeStatisticsDTO statistics=employeeService.getEmployeeWorkingStatistics(id,year,month);
         System.out.println("from api "+statistics);
         if(statistics==null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
