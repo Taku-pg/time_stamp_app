@@ -5,6 +5,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDateTime;
 
 public class EmployeeWorkingStatisticsDTO {
+    private Long employeeId;
     private Double regular;
     private Double nightShift;
     private Double overTime;
@@ -18,6 +19,14 @@ public class EmployeeWorkingStatisticsDTO {
     public String toString() {
         return "[regular=" + regular + ", nightShift=" + nightShift+
                 ", overTime=" + overTime+ ", overNight=" + overNight+ ", breakTime="+breakTime+ ", total=" + total+"]";
+    }
+
+    public Long getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
     }
 
     public Double getRegular() {

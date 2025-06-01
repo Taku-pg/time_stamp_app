@@ -7,6 +7,7 @@ import org.example.timestampapp.Model.Entity.Employee;
 import org.example.timestampapp.Model.Repository.DepartmentRepository;
 import org.example.timestampapp.Model.Repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,10 +53,12 @@ public class EmployeeService {
         return record;
     }
 
+    @Transactional
     public void updateEmployee(EmployeeDTO employeeDTO) {
         employeeRepository.save(employeeMapper.map(employeeDTO));
     }
 
+    @Transactional
     public void deleteEmployee(Long employeeId) {
         employeeRepository.deleteById(employeeId);
     }

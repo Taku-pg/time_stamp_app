@@ -52,7 +52,7 @@ public class AdminController {
     public String getEmployeeStatistic(Model model, @RequestParam(name="employeeId") Long employeeId) {
         int year= LocalDate.now().getYear();
         int month= LocalDate.now().getMonthValue();
-        EmployeeWorkingStatisticsDTO statistics=employeeService.getEmployeeWorkingStatistics(employeeId,2025,4);
+        EmployeeWorkingStatisticsDTO statistics=employeeService.getEmployeeWorkingStatistics(employeeId,year,month);
         System.out.println(statistics);
         model.addAttribute("statistics", statistics);
         return "employee_statistics";

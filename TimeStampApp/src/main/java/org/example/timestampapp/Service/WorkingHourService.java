@@ -19,7 +19,7 @@ public class WorkingHourService {
 
     public EmployeeWorkingStatisticsDTO getWorkingHourStatistics(Long employeeId,int year,int month) {
         List<WorkingHour> monthlyRecords=workingHourRepository.findDetailWorkingHourByEmployeeId(employeeId,year,month);
-        return workingHourMapper.mapStatistics(monthlyRecords,year,month);
+        return workingHourMapper.mapStatistics(monthlyRecords,year,month,employeeId);
     }
 
 }

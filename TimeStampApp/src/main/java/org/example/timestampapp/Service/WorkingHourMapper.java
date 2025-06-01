@@ -22,9 +22,8 @@ public class WorkingHourMapper {
         this.segmentTypeRepository = segmentTypeRepository;
     }
 
-    public EmployeeWorkingStatisticsDTO mapStatistics(List<WorkingHour> monthlyRecord,int year,int month) {
+    public EmployeeWorkingStatisticsDTO mapStatistics(List<WorkingHour> monthlyRecord,int year,int month,Long employeeId) {
         EmployeeWorkingStatisticsDTO recordDTO=new EmployeeWorkingStatisticsDTO();
-        double totalHours=0;
         double regular=0;
         double overTime=0;
         double night=0;
@@ -74,8 +73,9 @@ public class WorkingHourMapper {
         overNight=(double)Math.round((100*overNight)/60)/100;
         breakHours=(double)Math.round((100*breakHours)/60)/100;
 
-        totalHours=regular+overTime+night+overNight-breakHours;
+        double totalHours=regular+overTime+night+overNight-breakHours;
 
+        recordDTO.setEmployeeId(employeeId);
         recordDTO.setRegular(regular);
         recordDTO.setOverTime(overTime);
         recordDTO.setNightShift(night);

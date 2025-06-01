@@ -9,17 +9,22 @@
 <body style="padding-top: 0">
 <main layout:fragment="content">
 <div style="display: block; margin: auto">
-    <h2 th:text="'Working statistics ('+${statistics.year}+'-'+${statistics.month}+')'"></h2>
+    <h2 th:text="'Working statistics ('+${statistics.year}+'-'+${statistics.month}+')'" id="title"></h2>
     <div style="text-align: right">
         <label>Month:
-            <input type="month" placeholder="1">
+            <input type="month" id="month" required>
+            <input type="hidden" id="id" th:value="${statistics.employeeId}">
         </label>
-        <button type="submit">search</button>
+        <button onclick="search()">search</button>
     </div>
     <div style="display: flex">
         <canvas id="employeeChart" style="height: 350px;width: 350px; padding: 10px"></canvas>
         <script>
+            let empChart=null;
             function displayChart(labels,data){
+                if(empChart!=null)
+                    empChart.destroy();
+
                 const chartData = {
                     labels: labels,
                     datasets: [{
@@ -48,10 +53,47 @@
                     }
                 };
 
-                new Chart(
+                empChart=new Chart(
                     document.getElementById('employeeChart'),
                     config
                 );
+            }
+
+            function search(){
+                const period=document.getElementById('month').value;
+                console.log(period);
+                const id= document.getElementById("id").value;
+                console.log(id);
+
+                const [year, month]=period.split('-');
+
+                fetch(`/api/employee/${id}/statistics/${year}/${month}`)
+                    .then(response=>{
+                        if(!response.ok) throw new Error("Not data found in specified month");
+                        return response.json()
+                    })
+                    .then(data=>{
+                        console.log(data)
+                        document.getElementById("title").textContent='Working statistics ('+period+')';
+                        document.getElementById("id").textContent=data.employeeId;
+                        document.getElementById("regular").textContent=data.regular+' hour';
+                        document.getElementById("night").textContent=data.nightShift+' hour';
+                        document.getElementById("overtime").textContent=data.overTime+' hour';
+                        document.getElementById("overnight").textContent=data.overNight+' hour';
+                        document.getElementById("total").textContent=data.total+' hour';
+                        document.getElementById("breaktime").textContent=data.breakTime+' hour';
+
+                        const labels=['regular','over time','night shift', 'over time and night shift','break'];
+                        const chartData=[
+                            data.regular,
+                            data.overTime,
+                            data.nightShift,
+                            data.overNight,
+                            data.breakTime
+                        ]
+                        console.log(chartData);
+                        displayChart(labels,chartData);
+                    });
             }
         </script>
         <script th:inline="javascript">
@@ -67,28 +109,33 @@
             displayChart(labels,data);
         </script>
         <label style="margin-left: 15px;margin-right: 15px;margin-top: auto; margin-bottom: auto; padding: 20px">Total working hour:
-            <h2 th:text="${statistics.total}+'hour'"></h2>
+            <h2 th:text="${statistics.total}+' hour'" id="total"></h2>
         </label>
         <div class="statistic-data">
             <h3>Detail</h3>
             <div style="display: flex">
             <label>Regular:</label>
-            <h4 th:text="${statistics.regular}+'hour'"></h4>
+            <h4 th:text="${statistics.regular}+' hour'" id="regular"></h4>
             </div>
             <br>
             <div style="display: flex">
                 <label>Night shift:</label>
-                <h4 th:text="${statistics.nightShift}+'hour'"></h4>
+                <h4 th:text="${statistics.nightShift}+' hour'" id="night"></h4>
             </div>
             <br>
             <div style="display: flex">
                 Overtime:
-                <h4 th:text="${statistics.overTime}+'hour'"></h4>
+                <h4 th:text="${statistics.overTime}+' hour'" id="overtime"></h4>
             </div>
             <br>
             <div style="display: flex">
                 Overtime and night shift:
-                <h4 th:text="${statistics.overNight}+'hour'"></h4>
+                <h4 th:text="${statistics.overNight}+' hour'" id="overnight"></h4>
+            </div>
+            <br>
+            <div style="display: flex">
+                Total break time:
+                <h4 th:text="${statistics.breakTime}+' hour'" id="breaktime"></h4>
             </div>
         </div>
     </div>
