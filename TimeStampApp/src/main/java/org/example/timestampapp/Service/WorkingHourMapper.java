@@ -29,7 +29,7 @@ public class WorkingHourMapper {
         Map<String,Double> hours=calculateHours(monthlyRecord);
         recordDTO.setEmployeeId(employeeId);
         recordDTO.setRegular(hours.get("regular"));
-        recordDTO.setOverTime(hours.get("overTime"));
+        recordDTO.setOverTime(hours.get("overtime"));
         recordDTO.setNightShift(hours.get("night"));
         recordDTO.setOverNight(hours.get("overNight"));
         recordDTO.setBreakTime(hours.get("breakHours"));
@@ -46,11 +46,10 @@ public class WorkingHourMapper {
 
         recordDTO.setName(dName);
         recordDTO.setRegular(hours.get("regular"));
-        recordDTO.setOverTime(hours.get("overTime"));
+        recordDTO.setOverTime(hours.get("overtime"));
         recordDTO.setNightShift(hours.get("night"));
         recordDTO.setOverNight(hours.get("overNight"));
         recordDTO.setBreakTime(hours.get("breakHours"));
-        recordDTO.setTotal(hours.get("totalHours"));
         recordDTO.setYear(year);
         recordDTO.setMonth(month);
 

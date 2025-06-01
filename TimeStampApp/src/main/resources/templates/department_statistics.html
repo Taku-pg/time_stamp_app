@@ -9,11 +9,11 @@
 <body style="padding-top: 0">
 <main layout:fragment="content">
 <div style="display: block; margin: auto">
-  <h2 id="title" th:text="${statistics.name}+'department working statistic('+${statistics.year}+'-'+${statistics.month}+')'"></h2>
+  <h2 id="title" th:text="${statistics.name}+'department working statistics ('+${statistics.year}+'-'+${statistics.month}+')'"></h2>
   <div style="text-align: right">
-    <label>Department:<br>
+    <label id="select-label">Department:<br>
       <select id="department">
-        <option
+       <option
                 th:each="department:${departments}"
                 th:text="${department}"
                 th:value="${department}"></option>
@@ -27,7 +27,36 @@
   <div style="display: flex">
     <canvas id="deptChart" style="height: 350px;width: 350px; padding: 10px"></canvas>
     <script src="/js/chart-display.js"></script>
+    <script th:inline="javascript">
+    const departments=[[${departments}]];
+    console.log(departments);
+    const labels=['regular','over time','night shift', 'over time and night shift','break'];
+    const data=[
+      [[${statistics.regular}]],
+      [[${statistics.overTime}]],
+      [[${statistics.nightShift}]],
+      [[${statistics.overNight}]],
+      [[${statistics.breakTime}]],
+    ]
+    console.log(data);
+    displayChart("deptChart",labels,data);
+  </script>
     <script>
+      function fillSelect(){
+        const select=document.getElementById("department");
+        select.innerHTML='';
+        if(!Array.isArray(departments))
+          console.log('not array');
+
+        departments.forEach(dept=>{
+          const option=document.createElement("option");
+          console.log(`dept ${dept}`,dept);
+          option.value=dept;
+          option.textContent=dept;
+          select.appendChild(option);
+        });
+      }
+
       function search(){
         const period=document.getElementById('month').value;
         console.log(period);
@@ -43,16 +72,13 @@
                 })
                 .then(data=>{
                   console.log(data)
-                  document.getElementById("title").textContent='Working statistics ('+period+')';
-                  document.getElementById("department").textContent=data.name;
+                  document.getElementById("title").textContent=name+' department working statistics ('+period+')';
                   document.getElementById("regular").textContent=data.regular+' hour';
                   document.getElementById("night").textContent=data.nightShift+' hour';
                   document.getElementById("overtime").textContent=data.overTime+' hour';
                   document.getElementById("overnight").textContent=data.overNight+' hour';
-                  document.getElementById("total").textContent=data.total+' hour';
                   document.getElementById("breaktime").textContent=data.breakTime+' hour';
 
-                  const labels=['regular','over time','night shift', 'over time and night shift','break'];
                   const chartData=[
                     data.regular,
                     data.overTime,
@@ -63,20 +89,12 @@
                   console.log(chartData);
                   displayChart("deptChart",labels,chartData);
                 });
+
+        console.log(departments);
+        fillSelect();
       }
     </script>
-    <script th:inline="javascript">
-      const labels=['regular','over time','night shift', 'over time and night shift','break'];
-      const data=[
-        [[${statistics.regular}]],
-        [[${statistics.overTime}]],
-        [[${statistics.nightShift}]],
-        [[${statistics.overNight}]],
-        [[${statistics.breakTime}]],
-      ]
-      console.log(data);
-      displayChart("deptChart",labels,data);
-    </script>
+
 
     <div class="statistic-data">
       <h3>Detail</h3>

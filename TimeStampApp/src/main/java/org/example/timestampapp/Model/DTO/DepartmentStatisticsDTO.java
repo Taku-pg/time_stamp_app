@@ -7,7 +7,6 @@ public class DepartmentStatisticsDTO {
     private Double overTime;
     private Double overNight;
     private Double breakTime;
-    private Double total;
     private Integer year;
     private Integer month;
 
@@ -62,14 +61,6 @@ public class DepartmentStatisticsDTO {
 
     public void setBreakTime(Double breakTime) {
         this.breakTime = breakTime;
-    }
-
-    public Double getTotal() {
-        return total;
-    }
-
-    public void setTotal(Double total) {
-        this.total = total;
     }
 
     public Integer getYear() {

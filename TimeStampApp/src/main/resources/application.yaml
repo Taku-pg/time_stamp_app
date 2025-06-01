@@ -18,4 +18,4 @@ spring:
   security:
     user:
       name: user
-      password: yourStrong(!)Password
+      password: password
