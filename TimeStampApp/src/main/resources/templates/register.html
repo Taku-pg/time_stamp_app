@@ -7,40 +7,44 @@
 </head>
 <body style="padding-top: 0">
 <main layout:fragment="content">
-<div style="display: block">
-  <h3>Register new employee</h3>
+    <div style="display: block">
+        <h3>Register new employee</h3>
 
-  <div class="register_employee">
-    <label>First name:<br>
-      <input type="text" required placeholder="John">
-    </label>
-    <br><br>
-    <label>Last name:<br>
-      <input type="text" required placeholder="Doe">
-    </label>
-    <br><br>
-    <label>Email address:<br>
-      <input type="email" required placeholder="johndoe@mail.com">
-    </label>
-    <br><br>
-    <label>Salary:<br>
-      <input type="number" required placeholder="30">
-      zl
-    </label>
-    <br><br>
-    <label>Department:<br>
-      <select >
-        <option>Sales</option>
-        <option>Manager</option>
-      </select>
-    </label>
-    <br><br>
-    <div style="text-align: center">
-      <button type="submit">Register</button>
+        <div class="register_employee">
+            <form th:action="@{/admin/register}" method="post">
+                <label>First name:<br>
+                    <input type="text" required placeholder="John" th:field="${employee.firstName}">
+                </label>
+                <br><br>
+                <label>Last name:<br>
+                    <input type="text" required placeholder="Doe" th:field="${employee.lastName}">
+                </label>
+                <br><br>
+                <label>Email address:<br>
+                    <input type="email" required placeholder="johndoe@mail.com" th:field="${employee.email}">
+                </label>
+                <br><br>
+                <label>Salary:<br>
+                    <input type="number" required placeholder="30" min="5" th:field="${employee.salary}">
+                    zl
+                </label>
+                <br><br>
+                <label>Department:<br>
+                    <select id="department" th:field="${employee.department}">
+                        <option
+                                th:each="department:${departments}"
+                                th:text="${department}"
+                                th:value="${department}"></option>
+                    </select>
+                </label>
+                <br><br>
+                <div style="text-align: center">
+                    <button type="submit">Register</button>
+                </div>
+            </form>
+        </div>
+        <a th:href="@{/admin/main}">back</a>
     </div>
-  </div>
-  <a href="#">back</a>
-</div>
 </main>
 </body>
 </html>

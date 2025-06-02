@@ -4,9 +4,12 @@ import org.example.timestampapp.Model.DTO.DepartmentStatisticsDTO;
 import org.example.timestampapp.Model.DTO.EmployeeDTO;
 import org.example.timestampapp.Model.DTO.EmployeeStatisticsDTO;
 import org.example.timestampapp.Model.DTO.FixRecordDTO;
+import org.example.timestampapp.Model.Entity.Department;
+import org.example.timestampapp.Model.Entity.Status;
 import org.example.timestampapp.Model.Entity.WorkingHour;
 import org.example.timestampapp.Service.DepartmentService;
 import org.example.timestampapp.Service.EmployeeService;
+import org.example.timestampapp.Service.StatusService;
 import org.example.timestampapp.Service.WorkingHourService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,13 +26,16 @@ public class AdminController {
     private final EmployeeService employeeService;
     private final DepartmentService departmentService;
     private final WorkingHourService workingHourService;
+    private final StatusService statusService;
 
     public AdminController(EmployeeService employeeService,
                            DepartmentService departmentService,
-                           WorkingHourService workingHourService) {
+                           WorkingHourService workingHourService,
+                           StatusService statusService) {
         this.employeeService = employeeService;
         this.departmentService = departmentService;
         this.workingHourService = workingHourService;
+        this.statusService = statusService;
     }
 
     @GetMapping("/main")
@@ -37,15 +43,28 @@ public class AdminController {
         return "admin";
     }
 
+    @GetMapping("/register")
+    public String register(Model model) {
+        List<String> departments=departmentService.getAllDepartmentName();
+        model.addAttribute("departments", departments);
+        model.addAttribute("employee", new EmployeeDTO());
+        return "register";
+    }
+
+    @PostMapping("/register")
+    public String register(@ModelAttribute EmployeeDTO employeeDTO) {
+        Department department=departmentService.getDepartment(employeeDTO.getDepartment());
+        Status status=statusService.getStatus("Leave");
+        if(status==null || department==null) {
+            return "redirect:/admin/register";
+        }
+        employeeService.createEmployee(employeeDTO,department,status);
+        return "admin";
+    }
+
     @GetMapping("/employee-list")
     public String getEmployeeList(Model model) {
         List<EmployeeDTO> employees=employeeService.getAllEmployees();
-        if(employees.isEmpty()) {
-            System.out.println("No employee found");
-        }
-        for (EmployeeDTO employee : employees) {
-            System.out.println(employee);
-        }
         model.addAttribute("employees", employees);
         return "all_employee";
     }
@@ -55,7 +74,6 @@ public class AdminController {
         int year= LocalDate.now().getYear();
         int month= LocalDate.now().getMonthValue();
         EmployeeStatisticsDTO statistics=employeeService.getEmployeeWorkingStatistics(employeeId,year,month);
-        System.out.println(statistics);
         model.addAttribute("statistics", statistics);
         return "employee_statistics";
     }
@@ -66,7 +84,6 @@ public class AdminController {
         int month= LocalDate.now().getMonthValue();
         String dName=departmentService.getDeptName();
         DepartmentStatisticsDTO statistics=departmentService.getDeptStatistics(dName,year,month);
-        System.out.println(statistics);
         model.addAttribute("statistics", statistics);
         List<String> departments=departmentService.getAllDepartmentName();
         model.addAttribute("departments", departments);

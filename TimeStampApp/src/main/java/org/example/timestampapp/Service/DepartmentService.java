@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DepartmentService {
@@ -17,6 +18,14 @@ public class DepartmentService {
                              StatisticsService statisticsService) {
         this.departmentRepository = departmentRepository;
         this.statisticsService = statisticsService;
+    }
+
+    public Department getDepartment(String name) {
+        Department department=departmentRepository.findDepartmentByName(name).orElse(null);
+        if(department==null){
+            throw new IllegalArgumentException("Department not found");
+        }
+        return department;
     }
 
     public List<String> getAllDepartmentName(){

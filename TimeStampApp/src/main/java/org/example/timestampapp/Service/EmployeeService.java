@@ -2,9 +2,13 @@ package org.example.timestampapp.Service;
 
 import org.example.timestampapp.Model.DTO.EmployeeDTO;
 import org.example.timestampapp.Model.DTO.EmployeeStatisticsDTO;
+import org.example.timestampapp.Model.Entity.Department;
 import org.example.timestampapp.Model.Entity.Employee;
+import org.example.timestampapp.Model.Entity.Status;
+import org.example.timestampapp.Model.Entity.User;
 import org.example.timestampapp.Model.Repository.DepartmentRepository;
 import org.example.timestampapp.Model.Repository.EmployeeRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,19 +22,22 @@ public class EmployeeService {
     private final EmployeeMapper employeeMapper;
     private final StatisticsService statisticsService;
     private final DepartmentRepository departmentRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public EmployeeService(EmployeeRepository employeeRepository,
                            EmployeeMapper employeeMapper,
                            StatisticsService statisticsService,
-                           DepartmentRepository departmentRepository) {
+                           DepartmentRepository departmentRepository,
+                           BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.employeeRepository = employeeRepository;
         this.employeeMapper = employeeMapper;
         this.statisticsService = statisticsService;
         this.departmentRepository = departmentRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     public Optional<EmployeeDTO> getEmployeeById(long id) {
-        Employee employee = employeeRepository.getEmployeeById(id);
+        Employee employee = employeeRepository.getEmployeeById(id).orElse(null);
         if (employee == null) {
             return Optional.empty();
         }
@@ -48,8 +55,22 @@ public class EmployeeService {
     }
 
     public EmployeeStatisticsDTO getEmployeeWorkingStatistics(long employeeId, int year, int month) {
-        EmployeeStatisticsDTO record = statisticsService.getWorkingHourStatistics(employeeId,year,month);
-        return record;
+        return statisticsService.getWorkingHourStatistics(employeeId,year,month);
+    }
+
+    public void createEmployee(EmployeeDTO employeeDTO, Department department, Status status) {
+        String rawPassword = "Password";
+        String hashedPassword = bCryptPasswordEncoder.encode(rawPassword);
+        User user =new User(employeeDTO.getEmail(),hashedPassword);
+
+        Employee employee = new Employee(employeeDTO.getFirstName(),
+                                         employeeDTO.getLastName(),
+                                         employeeDTO.getEmail(),
+                                         employeeDTO.getSalary(),
+                                         department,
+                                         user,
+                                         status);
+        employeeRepository.save(employee);
     }
 
     @Transactional

@@ -27,6 +27,16 @@ public class Employee {
 
     public Employee() {}
 
+    public Employee(String firstName, String lastName, String email, Integer salary, Department department, User user,Status status) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.salary = salary;
+        this.department = department;
+        this.user = user;
+        this.status = status;
+        user.setEmployee(this);
+    }
     public Long getId() {
         return id;
     }

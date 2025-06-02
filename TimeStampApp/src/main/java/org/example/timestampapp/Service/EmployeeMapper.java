@@ -35,24 +35,24 @@ public class EmployeeMapper {
 
     public Employee map(EmployeeDTO employeeDTO) {
         System.out.println(employeeDTO.getEmployeeId());
-        Employee employee= employeeRepository.getEmployeeById(employeeDTO.getEmployeeId());
+        Employee employee= employeeRepository.getEmployeeById(employeeDTO.getEmployeeId()).orElse(null);
 
-        if(employeeDTO.getFirstName() != null)
-            employee.setFirstName(employeeDTO.getFirstName());
+        if(employee!=null) {
+            if (employeeDTO.getFirstName() != null)
+                employee.setFirstName(employeeDTO.getFirstName());
 
-        if(employeeDTO.getLastName() != null)
-            employee.setLastName(employeeDTO.getLastName());
+            if (employeeDTO.getLastName() != null)
+                employee.setLastName(employeeDTO.getLastName());
 
-        if(employeeDTO.getEmail() != null)
-            employee.setEmail(employeeDTO.getEmail());
+            if (employeeDTO.getEmail() != null)
+                employee.setEmail(employeeDTO.getEmail());
 
-        if(employeeDTO.getSalary()!=null)
-            employee.setSalary(employeeDTO.getSalary());
+            if (employeeDTO.getSalary() != null)
+                employee.setSalary(employeeDTO.getSalary());
 
-        if(employeeDTO.getDepartment()!=null){
-            Department department=departmentRepository.findDepartmentByName(employeeDTO.getDepartment());
-            if(department!=null)
-                employee.setDepartment(department);
+            if (employeeDTO.getDepartment() != null) {
+                departmentRepository.findDepartmentByName(employeeDTO.getDepartment()).ifPresent(employee::setDepartment);
+            }
         }
 
         return employee;

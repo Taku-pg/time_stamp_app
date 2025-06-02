@@ -11,7 +11,7 @@
 <div style="display: block; margin: auto">
   <h2 id="title" th:text="${statistics.name}+'department working statistics ('+${statistics.year}+'-'+${statistics.month}+')'"></h2>
   <div style="text-align: right">
-    <label id="select-label">Department:<br>
+    <label>Department:<br>
       <select id="department">
        <option
                 th:each="department:${departments}"
