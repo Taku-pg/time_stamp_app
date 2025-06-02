@@ -3,34 +3,29 @@ package org.example.timestampapp.Service;
 import org.example.timestampapp.Model.DTO.DepartmentStatisticsDTO;
 import org.example.timestampapp.Model.DTO.EmployeeStatisticsDTO;
 import org.example.timestampapp.Model.DTO.FixRecordDTO;
+import org.example.timestampapp.Model.Entity.Break;
 import org.example.timestampapp.Model.Entity.WorkingHour;
 import org.example.timestampapp.Model.Repository.WorkingHourRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class WorkingHourService {
     private final WorkingHourRepository workingHourRepository;
     private final WorkingHourMapper workingHourMapper;
+    private final WorkingHourSegmentService workingHourSegmentService;
+
     public WorkingHourService(WorkingHourRepository workingHourRepository,
-                              WorkingHourMapper workingHourMapper) {
+                              WorkingHourMapper workingHourMapper,
+                              WorkingHourSegmentService workingHourSegmentService) {
         this.workingHourRepository = workingHourRepository;
         this.workingHourMapper = workingHourMapper;
+        this.workingHourSegmentService = workingHourSegmentService;
     }
 
-    public EmployeeStatisticsDTO getWorkingHourStatistics(Long employeeId, int year, int month) {
-        List<WorkingHour> monthlyRecords=workingHourRepository.findDetailWorkingHourByEmployeeId(employeeId,year,month);
-        return workingHourMapper.mapEmpStatistics(monthlyRecords,year,month,employeeId);
-    }
-
-    public DepartmentStatisticsDTO getDeptStatistics(String dName, int year, int month) {
-        List<WorkingHour> monthlyRecords=workingHourRepository.findDetailWorkingHourByDepartmentName(dName,year,month);
-        return workingHourMapper.mapDeptStatistics(monthlyRecords,year,month,dName);
-    }
 
     public List<FixRecordDTO> getFixRecord() {
         return workingHourMapper.mapFixRecord(workingHourRepository.findWorkingHourWithAutoLeave());
@@ -41,8 +36,12 @@ public class WorkingHourService {
         WorkingHour target=workingHourRepository.findById(workingHourId).orElse(null);
         if(target==null)
             throw new RuntimeException("Internal Error");
+        target.getBreaks().removeIf(break_ -> break_.getEndTime().isAfter(endTime));
         target.setStartTime(startTime);
         target.setEndTime(endTime);
+        target.setAutoLeave(false);
+        target.getSegments().clear();
+        workingHourSegmentService.updateWorkingHourSegment(target,startTime,endTime);
         workingHourRepository.save(target);
     }
 

@@ -3,7 +3,6 @@ package org.example.timestampapp.Service;
 import org.example.timestampapp.Model.DTO.DepartmentStatisticsDTO;
 import org.example.timestampapp.Model.Entity.Department;
 import org.example.timestampapp.Model.Repository.DepartmentRepository;
-import org.example.timestampapp.Model.Repository.WorkingHourRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,12 +11,12 @@ import java.util.List;
 @Service
 public class DepartmentService {
     private final DepartmentRepository departmentRepository;
-    private final WorkingHourService workingHourService;
+    private final StatisticsService statisticsService;
 
     public DepartmentService(DepartmentRepository departmentRepository,
-                             WorkingHourService workingHourService) {
+                             StatisticsService statisticsService) {
         this.departmentRepository = departmentRepository;
-        this.workingHourService = workingHourService;
+        this.statisticsService = statisticsService;
     }
 
     public List<String> getAllDepartmentName(){
@@ -35,6 +34,6 @@ public class DepartmentService {
     }
 
     public DepartmentStatisticsDTO getDeptStatistics(String dName, int year, int month) {
-        return workingHourService.getDeptStatistics(dName,year,month);
+        return statisticsService.getDeptStatistics(dName,year,month);
     }
 }

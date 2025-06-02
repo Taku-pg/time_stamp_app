@@ -16,16 +16,16 @@ import java.util.Optional;
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final EmployeeMapper employeeMapper;
-    private final WorkingHourService workingHourService;
+    private final StatisticsService statisticsService;
     private final DepartmentRepository departmentRepository;
 
     public EmployeeService(EmployeeRepository employeeRepository,
                            EmployeeMapper employeeMapper,
-                           WorkingHourService workingHourService,
+                           StatisticsService statisticsService,
                            DepartmentRepository departmentRepository) {
         this.employeeRepository = employeeRepository;
         this.employeeMapper = employeeMapper;
-        this.workingHourService = workingHourService;
+        this.statisticsService = statisticsService;
         this.departmentRepository = departmentRepository;
     }
 
@@ -48,7 +48,7 @@ public class EmployeeService {
     }
 
     public EmployeeStatisticsDTO getEmployeeWorkingStatistics(long employeeId, int year, int month) {
-        EmployeeStatisticsDTO record = workingHourService.getWorkingHourStatistics(employeeId,year,month);
+        EmployeeStatisticsDTO record = statisticsService.getWorkingHourStatistics(employeeId,year,month);
         return record;
     }
 

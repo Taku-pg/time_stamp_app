@@ -15,7 +15,7 @@ public class WorkingHour {
     private boolean autoLeave;
     @OneToMany(mappedBy = "workingHour", cascade = CascadeType.ALL,orphanRemoval = true)
     private List<WorkingHourSegment> segments;
-    @OneToMany(mappedBy = "workingHour")
+    @OneToMany(mappedBy = "workingHour", cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Break> breaks;
     @ManyToOne
     @JoinColumn(name="employee_id")

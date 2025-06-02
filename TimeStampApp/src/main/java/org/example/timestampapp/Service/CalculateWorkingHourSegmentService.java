@@ -25,36 +25,50 @@ public class CalculateWorkingHourSegmentService {
     public void calculateWorkingHourSegment(WorkingHour workingHour,LocalDateTime startTime, LocalDateTime endTime) {
         List<WorkingHourSegment> segments = workingHour.getSegments();
         double duration= Duration.between(startTime, endTime).toMinutes();
+        System.out.println(duration);
 
         LocalDateTime over=startTime.plusHours(8);
         LocalDateTime night = LocalDateTime.of(startTime.toLocalDate(), LocalTime.of(22,0));
 
-        if(over.isAfter(endTime) && night.isAfter(endTime)) {
-            double untilNight=Duration.between(startTime,night).toMinutes();
+        System.out.println(over);
+        System.out.println(night);
 
+        if(endTime.isAfter(over) && endTime.isAfter(night)) {
+            double untilNight=Duration.between(startTime,night).toMinutes();
+            System.out.println("overnight"+ untilNight);
+            //over-night work
             segments.add(createSegment(workingHour,duration-480,"over-night"));
 
             if(untilNight>480){
                 //overtime + over-night
+                System.out.println("overnight over");
                 segments.add(createSegment(workingHour,untilNight-480,"overtime"));
                 segments.add(createSegment(workingHour,480,"regular"));
             }else{
                 //night + over-night
+                System.out.println("overnight night");
                 segments.add(createSegment(workingHour,480-untilNight,"night"));
                 segments.add(createSegment(workingHour,untilNight,"regular"));
             }
 
-        }else if(over.isAfter(endTime)){
+        }else if(endTime.isAfter(over)){
+            //overtime and regular work
+            System.out.println("over");
             segments.add(createSegment(workingHour,duration-480,"overtime"));
             segments.add(createSegment(workingHour,480,"regular"));
 
-        }else if(night.isAfter(endTime)){
+        }else if(endTime.isAfter(night)){
+            //night and regular(optionally)
+            System.out.println("night");
             double untilNight=Duration.between(startTime,night).toMinutes();
             segments.add(createSegment(workingHour,duration-untilNight,"night"));
-            segments.add(createSegment(workingHour,untilNight,"regular"));
+            if(untilNight>0)
+                segments.add(createSegment(workingHour,untilNight,"regular"));
 
         }else{
-            segments.add(createSegment(workingHour,480,"regular"));
+            //only regular work
+            System.out.println("regular");
+            segments.add(createSegment(workingHour,duration,"regular"));
         }
 
     }

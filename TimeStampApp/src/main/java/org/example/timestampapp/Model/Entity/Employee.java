@@ -22,7 +22,7 @@ public class Employee {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="status_id")
     private Status status;
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     private List<WorkingHour> workingHour;
 
     public Employee() {}

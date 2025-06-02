@@ -4,10 +4,10 @@ import org.example.timestampapp.Model.DTO.DepartmentStatisticsDTO;
 import org.example.timestampapp.Model.DTO.EmployeeDTO;
 import org.example.timestampapp.Model.DTO.EmployeeStatisticsDTO;
 import org.example.timestampapp.Model.DTO.FixRecordDTO;
+import org.example.timestampapp.Model.Entity.WorkingHour;
 import org.example.timestampapp.Service.DepartmentService;
 import org.example.timestampapp.Service.EmployeeService;
 import org.example.timestampapp.Service.WorkingHourService;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -101,6 +101,7 @@ public class AdminController {
                                @RequestParam(name = "workingHourId") Long workingHourId,
                                @RequestParam(name = "startTime") LocalDateTime startTime,
                                @RequestParam(name = "endTime") LocalDateTime endTime) {
+        workingHourService.updateWorkingHour(workingHourId,startTime,endTime);
         List<FixRecordDTO> records=workingHourService.getFixRecord();
         if(!records.isEmpty())
             model.addAttribute("records", records);

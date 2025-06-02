@@ -14,19 +14,14 @@ import java.time.LocalDateTime;
 @Service
 public class WorkingHourSegmentService {
 
-    private final WorkingHourSegmentRepository workingHourSegmentRepository;
-    private final WorkingHourRepository workingHourRepository;
     private final CalculateWorkingHourSegmentService calculateWorkingHourSegmentService;
 
-    public WorkingHourSegmentService(WorkingHourSegmentRepository workingHourSegmentRepository,
-                                     WorkingHourRepository workingHourRepository,
+    public WorkingHourSegmentService(
                                      CalculateWorkingHourSegmentService calculateWorkingHourSegmentService) {
-        this.workingHourSegmentRepository = workingHourSegmentRepository;
-        this.workingHourRepository = workingHourRepository;
         this.calculateWorkingHourSegmentService = calculateWorkingHourSegmentService;
     }
 
     public void updateWorkingHourSegment(WorkingHour workingHour, LocalDateTime startTime, LocalDateTime endTime) {
-
+        calculateWorkingHourSegmentService.calculateWorkingHourSegment(workingHour, startTime, endTime);
     }
 }
