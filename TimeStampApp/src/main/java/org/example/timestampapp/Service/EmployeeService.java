@@ -8,6 +8,7 @@ import org.example.timestampapp.Model.Entity.Status;
 import org.example.timestampapp.Model.Entity.User;
 import org.example.timestampapp.Model.Repository.DepartmentRepository;
 import org.example.timestampapp.Model.Repository.EmployeeRepository;
+import org.example.timestampapp.Model.Repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,17 +20,20 @@ import java.util.Optional;
 @Service
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
+    private final UserRepository userRepository;
     private final EmployeeMapper employeeMapper;
     private final StatisticsService statisticsService;
     private final DepartmentRepository departmentRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public EmployeeService(EmployeeRepository employeeRepository,
+                           UserRepository userRepository,
                            EmployeeMapper employeeMapper,
                            StatisticsService statisticsService,
                            DepartmentRepository departmentRepository,
                            BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.employeeRepository = employeeRepository;
+        this.userRepository = userRepository;
         this.employeeMapper = employeeMapper;
         this.statisticsService = statisticsService;
         this.departmentRepository = departmentRepository;
@@ -58,10 +62,12 @@ public class EmployeeService {
         return statisticsService.getWorkingHourStatistics(employeeId,year,month);
     }
 
-    public void createEmployee(EmployeeDTO employeeDTO, Department department, Status status) {
+    @Transactional
+    public void registerEmployee(EmployeeDTO employeeDTO, Department department, Status status) {
         String rawPassword = "Password";
         String hashedPassword = bCryptPasswordEncoder.encode(rawPassword);
         User user =new User(employeeDTO.getEmail(),hashedPassword);
+        user=userRepository.save(user);
 
         Employee employee = new Employee(employeeDTO.getFirstName(),
                                          employeeDTO.getLastName(),

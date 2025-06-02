@@ -58,7 +58,7 @@ public class AdminController {
         if(status==null || department==null) {
             return "redirect:/admin/register";
         }
-        employeeService.createEmployee(employeeDTO,department,status);
+        employeeService.registerEmployee(employeeDTO,department,status);
         return "admin";
     }
 
