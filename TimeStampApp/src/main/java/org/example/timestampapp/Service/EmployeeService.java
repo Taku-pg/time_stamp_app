@@ -69,7 +69,7 @@ public class EmployeeService {
         return employeeDTOS;
     }
 
-    public EmployeeStatisticsDTO getEmployeeWorkingStatistics(long employeeId, int year, int month) {
+    public EmployeeStatisticsDTO getEmployeeWorkingStatistics(Long employeeId, int year, int month) {
         return statisticsService.getWorkingHourStatistics(employeeId,year,month);
     }
 
