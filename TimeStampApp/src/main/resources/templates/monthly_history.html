@@ -8,13 +8,14 @@
 <body>
 <main layout:fragment="content">
 <div style="display: block">
-<h2> Your working history(2025-3)</h2>
+  <h2 th:text="'Working statistics ('+${monthlyHistory.year}+'-'+${monthlyHistory.month}+')'" id="title"></h2>
 <div class="history">
   <div style="text-align: right">
     <label>Month:
-      <input type="month" placeholder="1">
+      <input type="month" id="month" required>
+      <input type="hidden" id="id" th:value="${session.employeeId}">
     </label>
-    <button type="submit"> search</button>
+    <button onclick="search()">search</button>
   </div>
   <br>
 
@@ -25,29 +26,56 @@
       <th>End</th>
       <th>Salary</th>
     </tr>
-    <tr>
-      <td>2025-03-12</td>
-      <td>9:00</td>
-      <td>19:00</td>
-      <td>400 zl</td>
+    <tbody id="tableBody">
+    <tr th:each="history:${monthlyHistory.histories}">
+      <td th:text="${history.date}"></td>
+      <td th:text="${history.startTime}"></td>
+      <td th:text="${history.endTime}"></td>
+      <td th:text="|${history.calculatedSalary} zl|"></td>
     </tr>
-    <tr>
-      <td>2025-03-13</td>
-      <td>9:00</td>
-      <td>19:00</td>
-      <td>400 zl</td>
-    </tr>
-    <tr>
-      <td>2025-03-14</td>
-      <td>8:30</td>
-      <td>19:00</td>
-      <td>425 zl</td>
-    </tr>
+    </tbody>
   </table>
   <br><br>
 
-  <h4>Total salary of the month: 1225 zl</h4>
-  <a href="#">back</a>
+  <script>
+    function search(){
+      const period=document.getElementById('month').value;
+      console.log(period)
+      const id=document.getElementById("id").value;
+      console.log(id)
+      const [year, month]=period.split('-');
+
+      console.log(id);
+      fetch(`/api/employee/${id}/history/${year}/${month}`)
+              .then(response=>{
+                if(!response.ok) throw new Error("Not found");
+                return response.json()
+              })
+              .then(data=>{
+                console.log(data)
+                document.getElementById("title").textContent=name+'Working history ('+period+')';
+                document.getElementById("total").textContent='Total salary of the month: '+data.totalSalary+'zl';
+
+                const tableBody=document.getElementById("tableBody");
+                tableBody.innerHTML="";
+
+                data.histories.forEach(d => {
+                  const row = document.createElement("tr");
+                  row.innerHTML = `
+                    <td>${d.date}</td>
+                    <td>${d.startTime}</td>
+                    <td>${d.endTime}</td>
+                    <td>${d.calculatedSalary}</td>`
+                  tableBody.appendChild(row);
+                })
+
+              })
+              .catch(err=>alert(err.message));
+    }
+  </script>
+
+  <h4 id="total" th:text="|Total salary of the month: ${monthlyHistory.totalSalary}|"></h4>
+  <a th:href="@{/employee/main}">back</a>
 </div>
 </div>
 </main>

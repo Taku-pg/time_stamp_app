@@ -1,10 +1,7 @@
 package org.example.timestampapp.Service;
 
 import org.example.timestampapp.Model.DTO.*;
-import org.example.timestampapp.Model.Entity.Break;
-import org.example.timestampapp.Model.Entity.SegmentType;
-import org.example.timestampapp.Model.Entity.WorkingHour;
-import org.example.timestampapp.Model.Entity.WorkingHourSegment;
+import org.example.timestampapp.Model.Entity.*;
 import org.example.timestampapp.Model.Repository.SegmentTypeRepository;
 import org.springframework.stereotype.Service;
 
@@ -123,5 +120,24 @@ public class WorkingHourMapper {
             records.add(fixRecordDTO);
         }
         return records;
+    }
+
+    public EmployeeHistoryDTO mapEmployeeHistoryDTO(WorkingHour workingHour,
+                                                    List<WorkingHourSegment> segments) {
+        EmployeeHistoryDTO history= new EmployeeHistoryDTO();
+        history.setDate(workingHour.getStartTime().toLocalDate());
+        history.setStartTime(workingHour.getStartTime().toLocalTime());
+        history.setEndTime(workingHour.getEndTime().toLocalTime());
+        double sal=0;
+        for(WorkingHourSegment segment : segments) {
+            Optional<SegmentType> type=segmentTypeRepository.findById(segment.getSegmentType().getId());
+            if(type.isPresent()) {
+                double magnification=type.get().getMagnification();
+                sal+=magnification*segment.getDuration();
+            }
+        }
+        history.setCalculatedSalary(sal);
+
+        return history;
     }
 }

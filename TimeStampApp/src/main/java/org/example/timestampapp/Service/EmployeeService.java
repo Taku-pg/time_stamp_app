@@ -1,6 +1,7 @@
 package org.example.timestampapp.Service;
 
 import org.example.timestampapp.Model.DTO.EmployeeDTO;
+import org.example.timestampapp.Model.DTO.EmployeeHistoryDTO;
 import org.example.timestampapp.Model.DTO.EmployeeStatisticsDTO;
 import org.example.timestampapp.Model.DTO.EmployeeStatusDTO;
 import org.example.timestampapp.Model.Entity.Department;
@@ -28,19 +29,21 @@ public class EmployeeService {
     private final StatisticsService statisticsService;
     private final DepartmentRepository departmentRepository;
     private final PasswordEncoder bCryptPasswordEncoder;
+    private final WorkingHourService workingHourService;
 
     public EmployeeService(EmployeeRepository employeeRepository,
                            UserRepository userRepository,
                            EmployeeMapper employeeMapper,
                            StatisticsService statisticsService,
                            DepartmentRepository departmentRepository,
-                           PasswordEncoder bCryptPasswordEncoder) {
+                           PasswordEncoder bCryptPasswordEncoder, WorkingHourService workingHourService) {
         this.employeeRepository = employeeRepository;
         this.userRepository = userRepository;
         this.employeeMapper = employeeMapper;
         this.statisticsService = statisticsService;
         this.departmentRepository = departmentRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.workingHourService = workingHourService;
     }
 
     public EmployeeDTO getEmployeeById(long id) {
@@ -71,6 +74,10 @@ public class EmployeeService {
 
     public EmployeeStatisticsDTO getEmployeeWorkingStatistics(Long employeeId, int year, int month) {
         return statisticsService.getWorkingHourStatistics(employeeId,year,month);
+    }
+
+    public List<EmployeeHistoryDTO> getEmployeeHistory(Long employeeId, int year, int month) {
+        return workingHourService.getEmployeeHistory(employeeId,year,month);
     }
 
     @Transactional

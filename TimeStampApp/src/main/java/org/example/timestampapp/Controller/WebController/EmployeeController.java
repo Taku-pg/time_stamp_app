@@ -1,9 +1,7 @@
 package org.example.timestampapp.Controller.WebController;
 
 import jakarta.servlet.http.HttpSession;
-import org.example.timestampapp.Model.DTO.EmployeeDTO;
-import org.example.timestampapp.Model.DTO.EmployeeStatisticsDTO;
-import org.example.timestampapp.Model.DTO.EmployeeStatusDTO;
+import org.example.timestampapp.Model.DTO.*;
 import org.example.timestampapp.Model.Entity.Employee;
 import org.example.timestampapp.Service.EmployeeService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Controller
 @RequestMapping("/employee")
@@ -48,5 +47,20 @@ public class EmployeeController {
                         month);
         model.addAttribute("statistics", statistics);
         return "employee_statistics";
+    }
+
+    @GetMapping("/monthly-history")
+    public String employeeHistory(Model model,HttpSession session) {
+        int year= LocalDate.now().getYear();
+        int month= LocalDate.now().getMonthValue();
+        List<EmployeeHistoryDTO> history =
+                employeeService.getEmployeeHistory((
+                        Long)session.getAttribute("employeeId"),
+                        year,
+                        month);
+        EmployeeMonthlyHistoryDTO employeeMonthlyHistoryDTO =
+                new EmployeeMonthlyHistoryDTO(year,month,history);
+        model.addAttribute("monthlyHistory", employeeMonthlyHistoryDTO);
+        return "monthly_history";
     }
 }
