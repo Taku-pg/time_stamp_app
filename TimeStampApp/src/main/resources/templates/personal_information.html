@@ -10,40 +10,40 @@
 <div style="display: block">
     <h3>Your personal information</h3>
     <div style="display: block">
-        <div class="personal_main">
+        <div class="personal_main" th:object="${employee}">
             <ul>
                 <li>
                     <label>First Name:
                         <br>
-                        <input type="text" readonly value="John">
+                        <input type="text" readonly th:value="*{firstName}">
                     </label>
                 </li>
                 <li>
                     <label>Last Name:
                         <br>
-                        <input type="text" readonly value="Doe">
+                        <input type="text" readonly th:value="*{lastName}">
                     </label>
                 </li>
                 <li>
                     <label>Email:
                         <br>
-                        <input type="text" readonly value="johndoe@mail.com">
+                        <input type="text" readonly th:vale="*{email}">
                     </label>
                 </li>
                 <li><label>Base salary:
                     <br>
-                    <input type="number" readonly value=30>zl
+                    <input type="number" readonly th:value="*{salary}">zl
                 </label></li>
                 <li><label>Department:
                     <br>
-                    <input type="text" readonly value="Sales">
+                    <input type="text" readonly th:value="*{department}">
                 </label></li>
             </ul>
 
-            <a href="#">Change password</a>
+            <a th:href="@{/employee/password-change}">Change password</a>
 
         </div>
-        <a href="#">back</a>
+        <a th:href="@{/employee/main}">back</a>
     </div>
 </div>
 </main>

@@ -63,4 +63,11 @@ public class EmployeeController {
         model.addAttribute("monthlyHistory", employeeMonthlyHistoryDTO);
         return "monthly_history";
     }
+
+    @GetMapping("/personal-information")
+    public String personalInfo(Model model,HttpSession session) {
+        EmployeeDTO employeeDTO = employeeService.getEmployeeById((Long)session.getAttribute("employeeId"));
+        model.addAttribute("employee", employeeDTO);
+        return "personal_information";
+    }
 }
