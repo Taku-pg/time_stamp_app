@@ -30,10 +30,7 @@ public class EmployeeMapper {
         employeeDTO.setLastName(employee.getLastName());
         employeeDTO.setEmail(employee.getEmail());
         employeeDTO.setSalary(employee.getSalary());
-        /*employeeDTO.setRole(employee.getUser().getRole());
-        employeeDTO.setPassword(employee.getUser().getPassword());*/
         employeeDTO.setDepartment(employee.getDepartment().getName());
-        //employeeDTO.setStatus(employee.getStatus().getType());
 
         return employeeDTO;
     }

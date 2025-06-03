@@ -31,7 +31,7 @@
         <div class="employee_main_icon">
             <img class="employee_main_menu" th:src="@{/image/personal.png}" alt="personal" width="50" height="50">
             <br><br>
-            <a href="#">Personal information</a>
+            <a th:href="@{/employee/personal-information}">Personal information</a>
         </div>
         <div class="employee_main_icon">
             <img class="employee_main_menu" th:src="@{/image/coin_icon.png}" alt="coin" width="50" height="50">
@@ -44,7 +44,7 @@
             <a th:href="@{/employee/employee-statistics}">Monthly statistics</a>
         </div>
     </div>
-    <form th:action="@{/login}" method="post">
+    <form th:action="@{/logout}" method="post">
         <button type="submit">Log out</button>
     </form>
 </div>
