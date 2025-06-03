@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.NoSuchElementException;
+
 @RestController
 @RequestMapping("/api/employee")
 public class EmployeeApiController {
@@ -19,15 +21,13 @@ public class EmployeeApiController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable long id) {
-        EmployeeDTO employee = employeeService.getEmployeeById(id).orElse(null);
-        if (employee == null) {
-            System.out.println("No employee found with id " + id);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }else {
-            System.out.println(employee);
+    public ResponseEntity<?> getEmployeeById(@PathVariable long id) {
+        try{
+            EmployeeDTO employee = employeeService.getEmployeeById(id);
+            return ResponseEntity.ok(employee);
+        }catch (NoSuchElementException e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(employee);
     }
 
     @GetMapping("/{id}/statistics/{year}/{month}")

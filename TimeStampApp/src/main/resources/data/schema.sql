@@ -59,6 +59,7 @@ CREATE TABLE Employee (
     Last_Name varchar(20)  NOT NULL,
     Salary int  NOT NULL,
     Email varchar(50)  NOT NULL,
+    Last_update datetime null,
     User_Id bigint  NOT NULL,
     Department_Id bigint  NOT NULL,
     Status_Id bigint  NOT NULL,

@@ -5,6 +5,7 @@ import org.example.timestampapp.Model.Entity.Department;
 import org.example.timestampapp.Model.Entity.Employee;
 import org.example.timestampapp.Model.Repository.DepartmentRepository;
 import org.example.timestampapp.Model.Repository.EmployeeRepository;
+import org.example.timestampapp.Model.Repository.StatusRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,10 +13,14 @@ public class EmployeeMapper {
 
     private final EmployeeRepository employeeRepository;
     private final DepartmentRepository departmentRepository;
+    private final StatusRepository statusRepository;
 
-    public EmployeeMapper(EmployeeRepository employeeRepository, DepartmentRepository departmentRepository) {
+    public EmployeeMapper(EmployeeRepository employeeRepository,
+                          DepartmentRepository departmentRepository,
+                          StatusRepository statusRepository) {
         this.employeeRepository = employeeRepository;
         this.departmentRepository = departmentRepository;
+        this.statusRepository = statusRepository;
     }
 
     public EmployeeDTO map(Employee employee) {
@@ -56,6 +61,18 @@ public class EmployeeMapper {
         }
 
         return employee;
+    }
+
+    public EmployeeStatusDTO mapEmployeeStatusDTO(Employee employee) {
+        EmployeeStatusDTO employeeStatusDTO = new EmployeeStatusDTO();
+        employeeStatusDTO.setEmployeeId(employee.getId());
+        employeeStatusDTO.setFirstName(employee.getFirstName());
+        employeeStatusDTO.setCurrentStatus(employee.getStatus().getType());
+
+
+
+
+        return employeeStatusDTO;
     }
 }
 

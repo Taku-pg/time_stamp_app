@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -40,12 +41,20 @@ public class EmployeeService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    public Optional<EmployeeDTO> getEmployeeById(long id) {
+    public EmployeeDTO getEmployeeById(long id) {
         Employee employee = employeeRepository.getEmployeeById(id).orElse(null);
         if (employee == null) {
-            return Optional.empty();
+            throw new NoSuchElementException("Employee with id " + id + " not found");
         }
-        return Optional.of(employeeMapper.map(employee));
+        return employeeMapper.map(employee);
+    }
+
+    public EmployeeDTO getEmployeeStatusByEmail(String email) {
+        Employee employee=employeeRepository.findEmployeeByEmail(email).orElse(null);
+        if (employee == null) {
+            throw new NoSuchElementException("Employee with email " + email + " not found");
+        }
+        return employeeMapper.map(employee);
     }
 
     public List<EmployeeDTO> getAllEmployees() {
