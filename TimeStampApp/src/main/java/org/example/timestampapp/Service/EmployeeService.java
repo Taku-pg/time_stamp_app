@@ -2,6 +2,7 @@ package org.example.timestampapp.Service;
 
 import org.example.timestampapp.Model.DTO.EmployeeDTO;
 import org.example.timestampapp.Model.DTO.EmployeeStatisticsDTO;
+import org.example.timestampapp.Model.DTO.EmployeeStatusDTO;
 import org.example.timestampapp.Model.Entity.Department;
 import org.example.timestampapp.Model.Entity.Employee;
 import org.example.timestampapp.Model.Entity.Status;
@@ -10,6 +11,7 @@ import org.example.timestampapp.Model.Repository.DepartmentRepository;
 import org.example.timestampapp.Model.Repository.EmployeeRepository;
 import org.example.timestampapp.Model.Repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,14 +27,14 @@ public class EmployeeService {
     private final EmployeeMapper employeeMapper;
     private final StatisticsService statisticsService;
     private final DepartmentRepository departmentRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final PasswordEncoder bCryptPasswordEncoder;
 
     public EmployeeService(EmployeeRepository employeeRepository,
                            UserRepository userRepository,
                            EmployeeMapper employeeMapper,
                            StatisticsService statisticsService,
                            DepartmentRepository departmentRepository,
-                           BCryptPasswordEncoder bCryptPasswordEncoder) {
+                           PasswordEncoder bCryptPasswordEncoder) {
         this.employeeRepository = employeeRepository;
         this.userRepository = userRepository;
         this.employeeMapper = employeeMapper;
@@ -49,12 +51,12 @@ public class EmployeeService {
         return employeeMapper.map(employee);
     }
 
-    public EmployeeDTO getEmployeeStatusByEmail(String email) {
+    public EmployeeStatusDTO getEmployeeStatusByEmail(String email) {
         Employee employee=employeeRepository.findEmployeeByEmail(email).orElse(null);
         if (employee == null) {
             throw new NoSuchElementException("Employee with email " + email + " not found");
         }
-        return employeeMapper.map(employee);
+        return employeeMapper.mapEmployeeStatusDTO(employee);
     }
 
     public List<EmployeeDTO> getAllEmployees() {

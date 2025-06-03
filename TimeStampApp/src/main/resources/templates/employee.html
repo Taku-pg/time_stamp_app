@@ -10,10 +10,21 @@
 
 <div>
     <div class="employee_current_status">
-        <h3>Your current status: work</h3>
-        <h3>Last time-stamp: 2025/5/19 9:01</h3>
-        <button type="submit">leave</button>
-        <button type="submit">break</button>
+        <h2 th:text="'Hello, '+${employee.firstName}"></h2>
+        <h3 th:text="'Your current status: '+${employee.currentStatus}"></h3>
+        <h3 th:text="'Last time-stamp: '+${employee.lastUpdate}"></h3>
+        <div th:switch="${employee.currentStatus}">
+            <div th:case="'Work'">
+                <button type="submit">leave</button>
+                <button type="submit">break</button>
+            </div>
+            <div th:case="'Leave'">
+                <button type="submit">work</button>
+            </div>
+            <div th:case="'Break'">
+                <button type="submit">back</button>
+            </div>
+        </div>
     </div>
     <br><br><br>
     <div class="employee_main_icons">
@@ -33,6 +44,9 @@
             <a th:href="@{/employee/employee-statistics}">Monthly statistics</a>
         </div>
     </div>
+    <form th:action="@{/login}" method="post">
+        <button type="submit">Log out</button>
+    </form>
 </div>
 </main>
 </body>

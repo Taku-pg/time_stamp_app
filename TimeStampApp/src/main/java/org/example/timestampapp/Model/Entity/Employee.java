@@ -2,6 +2,7 @@ package org.example.timestampapp.Model.Entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -13,6 +14,7 @@ public class Employee {
     private String lastName;
     private String email;
     private Integer salary;
+    private LocalDateTime lastUpdate;
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -75,6 +77,14 @@ public class Employee {
 
     public void setSalary(Integer salary) {
         this.salary = salary;
+    }
+
+    public LocalDateTime getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(LocalDateTime lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 
     public User getUser() {

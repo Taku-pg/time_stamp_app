@@ -1,6 +1,7 @@
 package org.example.timestampapp.Controller.WebController;
 
 import org.example.timestampapp.Model.DTO.EmployeeDTO;
+import org.example.timestampapp.Model.DTO.EmployeeStatusDTO;
 import org.example.timestampapp.Model.Entity.Employee;
 import org.example.timestampapp.Service.EmployeeService;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
@@ -24,7 +25,7 @@ public class EmployeeController {
     @GetMapping("/main")
     public String employeeMain(Model model) {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        EmployeeDTO employeeDTO = employeeService.getEmployeeStatusByEmail(userName);
+        EmployeeStatusDTO employeeDTO = employeeService.getEmployeeStatusByEmail(userName);
         model.addAttribute("employee", employeeDTO);
         return "employee";
     }

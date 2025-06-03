@@ -1,5 +1,6 @@
-package org.example.timestampapp.Service;
+package org.example.timestampapp.Config;
 
+import org.example.timestampapp.Service.UserService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

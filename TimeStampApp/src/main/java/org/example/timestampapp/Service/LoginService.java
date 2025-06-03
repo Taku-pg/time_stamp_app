@@ -13,6 +13,7 @@ public class LoginService {
     }
 
     public String checkRole(UserDTO userDTO) {
+        System.out.println("call checkRole");
         User user=userService.getUserByUsername(userDTO.getUsername()).orElse(null);
         if(user==null) {
             return "Invalid username or password";
