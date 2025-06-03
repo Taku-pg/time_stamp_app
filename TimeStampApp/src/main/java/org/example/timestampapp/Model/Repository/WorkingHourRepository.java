@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface WorkingHourRepository extends CrudRepository<WorkingHour, Long> {
     @Query("SELECT w FROM WorkingHour w LEFT JOIN w.segments " +
-            "LEFT JOIN FETCH w.breaks " +
+            "LEFT JOIN w.breaks " +
             "WHERE w.employee.id= :id AND YEAR(w.startTime) = :year AND MONTH(w.startTime) = :month")
     List<WorkingHour> findDetailWorkingHourByEmployeeId(@Param("id") long employeeId,
                                                         @Param("year") int year,

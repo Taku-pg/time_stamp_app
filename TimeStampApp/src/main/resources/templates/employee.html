@@ -15,14 +15,26 @@
         <h3 th:text="'Last time-stamp: '+${employee.lastUpdate}"></h3>
         <div th:switch="${employee.currentStatus}">
             <div th:case="'Work'">
+                <form th:action="@{/employee/time-stamp}" method="post">
+                    <input type="hidden" name="type" value="leave">
                 <button type="submit">leave</button>
-                <button type="submit">break</button>
+                </form>
+                <form th:action="@{/employee/time-stamp}" method="post">
+                    <input type="hidden" name="type" value="break">
+                    <button type="submit">break</button>
+                </form>
             </div>
             <div th:case="'Leave'">
-                <button type="submit">work</button>
+                <form th:action="@{/employee/time-stamp}" method="post">
+                    <input type="hidden" name="type" value="work">
+                    <button type="submit">work</button>
+                </form>
             </div>
             <div th:case="'Break'">
-                <button type="submit">back</button>
+                <form th:action="@{/employee/time-stamp}" method="post">
+                    <input type="hidden" name="type" value="back">
+                    <button type="submit">back</button>
+                </form>
             </div>
         </div>
     </div>

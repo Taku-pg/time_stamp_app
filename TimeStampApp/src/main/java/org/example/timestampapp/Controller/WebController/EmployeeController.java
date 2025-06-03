@@ -94,4 +94,20 @@ public class EmployeeController {
         }
         return "redirect:/employee/main";
     }
+
+    @PostMapping("/time-stamp")
+    public String timeStamp(Model model,HttpSession session,
+                            @RequestParam(name="type") String action) {
+        EmployeeDTO employeeDTO = employeeService.getEmployeeById((Long)session.getAttribute("employeeId"));
+        switch (action) {
+            case "work":
+
+                break;
+            case "leave":
+                break;
+            case "back":
+                break;
+        }
+        return "redirect:/employee/main";
+    }
 }

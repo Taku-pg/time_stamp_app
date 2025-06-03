@@ -24,21 +24,16 @@ public class UserService {
 
     @Transactional
     public void changePassword(String username,String currentPassword, String newPassword) {
-        System.out.println("Change password");
         String encodedCurrentPassword = passwordEncoder.encode(currentPassword);
-        System.out.println("hashed currPass: "+encodedCurrentPassword);
         User user= userRepository.findUserByUsername(username).orElse(null);
 
         if(user==null) {
-            System.out.println("user not found");
             throw new RuntimeException("User not found");
         }
         if(passwordEncoder.matches(user.getPassword(),encodedCurrentPassword)) {
-            System.out.println("wrong password");
             throw new RuntimeException("Current password does not match");
         }
         String encodedNewPassword = passwordEncoder.encode(newPassword);
-        System.out.println("hashed newPass: "+encodedNewPassword);
         user.setPassword(encodedNewPassword);
         userRepository.save(user);
     }

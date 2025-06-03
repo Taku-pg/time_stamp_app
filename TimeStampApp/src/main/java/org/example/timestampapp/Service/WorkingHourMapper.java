@@ -57,8 +57,9 @@ public class WorkingHourMapper {
         double night=0;
         double overNight=0;
         double breakHours=0;
-
+        System.out.println("calculate statistics");
         for(WorkingHour workingHour : monthlyRecord) {
+            System.out.println(workingHour);
             //calculate working hours
             List<WorkingHourSegment> segments=workingHour.getSegments();
             for(WorkingHourSegment segment : segments) {
@@ -84,8 +85,11 @@ public class WorkingHourMapper {
 
             //calculate break time
             List<Break> breaks=workingHour.getBreaks();
+            System.out.println(breaks.size());
             for(Break break_ : breaks) {
+                System.out.println(break_.getStartTime()+" "+break_.getEndTime());
                 Duration duration=Duration.between(break_.getStartTime(),break_.getEndTime());
+                System.out.println(duration.toMinutes());
                 breakHours+=duration.toMinutes();
             }
         }
@@ -96,6 +100,7 @@ public class WorkingHourMapper {
         breakHours=(double)Math.round((100*breakHours)/60)/100;
 
         double totalHours=regular+overTime+night+overNight-breakHours;
+        totalHours=(double)Math.round((100*totalHours))/100;
 
         Map<String,Double> hours= new HashMap<>();
 

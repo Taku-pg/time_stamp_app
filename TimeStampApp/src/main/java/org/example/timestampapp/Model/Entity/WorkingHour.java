@@ -21,6 +21,11 @@ public class WorkingHour {
     @JoinColumn(name="employee_id")
     private Employee employee;
 
+    @Override
+    public String toString() {
+        return breaks.size()+" "+id;
+    }
+
     public WorkingHour() {}
 
     public Long getId() {
