@@ -28,6 +28,12 @@ public class WorkingHour {
 
     public WorkingHour() {}
 
+    public WorkingHour(LocalDateTime startTime, Employee employee) {
+        this.startTime = startTime;
+        this.employee = employee;
+        this.autoLeave = false;
+    }
+
     public Long getId() {
         return id;
     }

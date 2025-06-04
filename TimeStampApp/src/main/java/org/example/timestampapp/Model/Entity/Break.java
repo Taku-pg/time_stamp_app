@@ -17,6 +17,11 @@ public class Break {
 
     public Break() {}
 
+    public Break(LocalDateTime startTime, WorkingHour workingHour) {
+        this.startTime = startTime;
+        this.workingHour = workingHour;
+    }
+
     public Long getId() {
         return id;
     }

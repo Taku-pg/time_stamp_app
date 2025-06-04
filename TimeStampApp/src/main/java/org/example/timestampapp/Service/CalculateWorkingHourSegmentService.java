@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Period;
+import java.time.chrono.ChronoLocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -19,6 +21,8 @@ import java.util.List;
 public class CalculateWorkingHourSegmentService {
 
     private final SegmentTypeRepository segmentTypeRepository;
+    private final LocalTime NIGHT = LocalTime.of(22,0);
+    private final LocalTime END_NIGHT = LocalTime.of(5,0);
 
     public CalculateWorkingHourSegmentService(SegmentTypeRepository segmentTypeRepository) {
         this.segmentTypeRepository = segmentTypeRepository;
@@ -47,6 +51,12 @@ public class CalculateWorkingHourSegmentService {
                     new SegmentDTO(first.getEndTime(),
                             endTime,
                             Duration.between(first.getEndTime(),endTime).toMinutes()));
+        }else{
+            //without break
+            segmentDurations.add(
+                    new SegmentDTO(startTime,
+                            endTime,
+                            Duration.between(startTime,endTime).toMinutes()));
         }
         LocalDateTime night = LocalDateTime.of(startTime.toLocalDate(), LocalTime.of(22,0));
         long regularDuration=0;
@@ -54,7 +64,8 @@ public class CalculateWorkingHourSegmentService {
         long overDuration=0;
         long overNightDuration=0;
         for(SegmentDTO segmentDuration:segmentDurations) {
-            if (segmentDuration.getEndTime().isBefore(night)){
+            if (segmentDuration.getEndTime().toLocalTime().isBefore(NIGHT)
+                    && segmentDuration.getEndTime().toLocalTime().isAfter(END_NIGHT)) {
                 //before night
                 if(regularDuration+segmentDuration.getDuration()<=480) {
                     //only regular
@@ -65,7 +76,8 @@ public class CalculateWorkingHourSegmentService {
                     regularDuration=480;
                 }
             }else{
-                if(segmentDuration.getStartTime().isBefore(night)){
+                if(segmentDuration.getStartTime().toLocalTime().isBefore(NIGHT)
+                        && segmentDuration.getStartTime().toLocalTime().isAfter(END_NIGHT)) {
                     //until night: regular or over
                     long untilNight=Duration.between(segmentDuration.getStartTime(),night).toMinutes();
                     if(regularDuration+untilNight<=480) {
@@ -92,10 +104,14 @@ public class CalculateWorkingHourSegmentService {
             }
         }
 
-        segments.add(createSegment(workingHour,regularDuration,"regular"));
-        segments.add(createSegment(workingHour,nightDuration,"night"));
-        segments.add(createSegment(workingHour,overDuration,"overtime"));
-        segments.add(createSegment(workingHour,overNightDuration,"over-night"));
+        if(regularDuration>0)
+            segments.add(createSegment(workingHour,regularDuration,"regular"));
+        if(nightDuration>0)
+            segments.add(createSegment(workingHour,nightDuration,"night"));
+        if(overDuration>0)
+            segments.add(createSegment(workingHour,overDuration,"overtime"));
+        if(overNightDuration>0)
+            segments.add(createSegment(workingHour,overNightDuration,"over-night"));
 
         /*double duration= Duration.between(startTime, endTime).toMinutes();
 

@@ -12,7 +12,7 @@
     <div class="employee_current_status">
         <h2 th:text="'Hello, '+${employee.firstName}"></h2>
         <h3 th:text="'Your current status: '+${employee.currentStatus}"></h3>
-        <h3 th:text="'Last time-stamp: '+${employee.lastUpdate}"></h3>
+        <h3 th:if="${employee.lastUpdate}" th:text="'Last time-stamp: '+${employee.lastUpdate}"></h3>
         <div th:switch="${employee.currentStatus}">
             <div th:case="'Work'">
                 <form th:action="@{/employee/time-stamp}" method="post">

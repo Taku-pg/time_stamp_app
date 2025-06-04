@@ -98,14 +98,19 @@ public class EmployeeController {
     @PostMapping("/time-stamp")
     public String timeStamp(Model model,HttpSession session,
                             @RequestParam(name="type") String action) {
-        EmployeeDTO employeeDTO = employeeService.getEmployeeById((Long)session.getAttribute("employeeId"));
+        Long employeeId = (Long)session.getAttribute("employeeId");
         switch (action) {
             case "work":
-
+                employeeService.workTimeStamp(employeeId);
                 break;
             case "leave":
+                employeeService.leaveTimeStamp(employeeId);
+                break;
+            case "break":
+                employeeService.breakTimeStamp(employeeId);
                 break;
             case "back":
+                employeeService.backTimeStamp(employeeId);
                 break;
         }
         return "redirect:/employee/main";

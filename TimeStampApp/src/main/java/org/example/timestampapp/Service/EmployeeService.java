@@ -4,18 +4,17 @@ import org.example.timestampapp.Model.DTO.EmployeeDTO;
 import org.example.timestampapp.Model.DTO.EmployeeHistoryDTO;
 import org.example.timestampapp.Model.DTO.EmployeeStatisticsDTO;
 import org.example.timestampapp.Model.DTO.EmployeeStatusDTO;
-import org.example.timestampapp.Model.Entity.Department;
-import org.example.timestampapp.Model.Entity.Employee;
-import org.example.timestampapp.Model.Entity.Status;
-import org.example.timestampapp.Model.Entity.User;
+import org.example.timestampapp.Model.Entity.*;
 import org.example.timestampapp.Model.Repository.DepartmentRepository;
 import org.example.timestampapp.Model.Repository.EmployeeRepository;
 import org.example.timestampapp.Model.Repository.UserRepository;
+import org.example.timestampapp.Model.Repository.WorkingHourRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -27,23 +26,28 @@ public class EmployeeService {
     private final UserRepository userRepository;
     private final EmployeeMapper employeeMapper;
     private final StatisticsService statisticsService;
+    private final StatusService statusService;
     private final DepartmentRepository departmentRepository;
     private final PasswordEncoder bCryptPasswordEncoder;
     private final WorkingHourService workingHourService;
+    private final WorkingHourRepository workingHourRepository;
 
     public EmployeeService(EmployeeRepository employeeRepository,
                            UserRepository userRepository,
                            EmployeeMapper employeeMapper,
                            StatisticsService statisticsService,
+                           StatusService statusService,
                            DepartmentRepository departmentRepository,
-                           PasswordEncoder bCryptPasswordEncoder, WorkingHourService workingHourService) {
+                           PasswordEncoder bCryptPasswordEncoder, WorkingHourService workingHourService, WorkingHourRepository workingHourRepository) {
         this.employeeRepository = employeeRepository;
         this.userRepository = userRepository;
         this.employeeMapper = employeeMapper;
         this.statisticsService = statisticsService;
+        this.statusService = statusService;
         this.departmentRepository = departmentRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.workingHourService = workingHourService;
+        this.workingHourRepository = workingHourRepository;
     }
 
     public EmployeeDTO getEmployeeById(long id) {
@@ -105,6 +109,53 @@ public class EmployeeService {
     @Transactional
     public void deleteEmployee(Long employeeId) {
         employeeRepository.deleteById(employeeId);
+    }
+
+    @Transactional
+    public void workTimeStamp(Long employeeId) {
+        Employee employee = employeeRepository.getEmployeeById(employeeId).orElse(null);
+        if (employee == null) {
+            throw new NoSuchElementException("Employee with id " + employeeId + " not found");
+        }
+        workingHourService.workTimeStamp(employee);
+        timeStamp(employee,"Work");
+    }
+
+    @Transactional
+    public void leaveTimeStamp(Long employeeId) {
+        Employee employee = employeeRepository.getEmployeeById(employeeId).orElse(null);
+        if (employee == null) {
+            throw new NoSuchElementException("Employee with id " + employeeId + " not found");
+        }
+        workingHourService.leaveTimeStamp(employeeId);
+        timeStamp(employee,"Leave");
+    }
+
+    @Transactional
+    public void breakTimeStamp(Long employeeId) {
+        Employee employee = employeeRepository.getEmployeeById(employeeId).orElse(null);
+        if (employee == null) {
+            throw new NoSuchElementException("Employee with id " + employeeId + " not found");
+        }
+        workingHourService.breakTimeStamp(employeeId);
+        timeStamp(employee,"Break");
+    }
+
+    @Transactional
+    public void backTimeStamp(Long employeeId) {
+        Employee employee = employeeRepository.getEmployeeById(employeeId).orElse(null);
+        if (employee == null) {
+            throw new NoSuchElementException("Employee with id " + employeeId + " not found");
+        }
+        workingHourService.backTimeStamp(employeeId);
+        timeStamp(employee,"Work");
+    }
+
+    private void timeStamp(Employee employee,String type){
+        Status status=statusService.getStatus(type);
+        employee.setStatus(status);
+        employee.setLastUpdate(LocalDateTime.now());
+        employeeRepository.save(employee);
     }
 }
 
