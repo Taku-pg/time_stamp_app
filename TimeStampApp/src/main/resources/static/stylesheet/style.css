@@ -7,7 +7,7 @@ body{
     justify-content: center;
     align-items: center;
     padding-top: 5%;
-    background: linear-gradient(45deg, white,antiquewhite);
+    background: linear-gradient(45deg, white, antiquewhite) fixed;
 }
 
 .error{
