@@ -1,6 +1,7 @@
 package org.example.timestampapp.Controller.WebController;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.example.timestampapp.Model.DTO.*;
 import org.example.timestampapp.Model.Entity.Employee;
 import org.example.timestampapp.Service.EmployeeService;
@@ -11,10 +12,12 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Controller
 @RequestMapping("/employee")
@@ -81,16 +84,27 @@ public class EmployeeController {
     }
 
     @PostMapping("/password-change")
-    public String changePassword(@ModelAttribute PasswordChangeDTO passwordChangeDTO) {
+    public String changePassword(@Valid @ModelAttribute(name="passwordForm") PasswordChangeDTO passwordChangeDTO,
+                                 BindingResult bindingResult,
+                                 Model model) {
         System.out.println(passwordChangeDTO);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("passwordForm", passwordChangeDTO);
+            return "password_change";
+        }
+
         if (!passwordChangeDTO.getNewPassword().equals(passwordChangeDTO.getConfirmPassword())) {
-            return "redirect:/employee/password-change";
+            model.addAttribute("passwordForm", new PasswordChangeDTO());
+            model.addAttribute("errorMessage", "Passwords do not match");
+            return "password_change";
         }
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         try{
             userService.changePassword(userName, passwordChangeDTO.getCurrentPassword(),passwordChangeDTO.getNewPassword());
-        }catch (Exception e){
-            return "redirect:/employee/password-change";
+        }catch (NoSuchElementException e){
+            model.addAttribute("passwordForm", new PasswordChangeDTO());
+            model.addAttribute("errorMessage", e.getMessage());
+            return "password_change";
         }
         return "redirect:/employee/main";
     }

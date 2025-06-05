@@ -109,8 +109,17 @@ public class AdminController {
     }
 
     @PostMapping("/modify-employee")
-    public String modifyEmployee(@ModelAttribute EmployeeDTO employee) {
+    public String modifyEmployee(@Valid @ModelAttribute EmployeeDTO employee,
+                                 BindingResult bindingResult,
+                                 Model model) {
         System.out.println(employee);
+        if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));
+            List<String> departments=departmentService.getAllDepartmentName();
+            model.addAttribute("departments", departments);
+            model.addAttribute("employee", employee);
+            return "register";
+        }
         employeeService.updateEmployee(employee);
         return "admin";
     }

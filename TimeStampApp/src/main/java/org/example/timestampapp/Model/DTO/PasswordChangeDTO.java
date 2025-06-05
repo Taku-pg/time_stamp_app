@@ -1,8 +1,16 @@
 package org.example.timestampapp.Model.DTO;
 
+import jakarta.validation.constraints.NotBlank;
+import org.example.timestampapp.Validation.ValidPassword;
+
 public class PasswordChangeDTO {
+    @NotBlank(message = "{password.blank}")
     private String currentPassword;
+    @NotBlank(message = "{password.blank}")
+    @ValidPassword
     private String newPassword;
+    @NotBlank(message = "{password.blank}")
+    @ValidPassword
     private String confirmPassword;
 
     @Override
