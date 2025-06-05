@@ -13,13 +13,14 @@
     <h3 style="text-align: center">Login</h3>
     <form th:action="@{/login}" method="post">
     <label style="text-align: left">User name<br>
-        <input type="text" name="userName" placeholder="user name" th:field="${user.username}">
+        <input type="text" name="userName" placeholder="user name" th:field="${user.username}" required>
     </label>
     <br><br>
     <label style="text-align: left">Password<br>
-        <input type="password" name="password" placeholder="password" th:field="${user.password}">
+        <input type="password" name="password" placeholder="password" th:field="${user.password}" required>
     </label>
     <br><br>
+        <span th:if="${param.error}" class="error">Invalid username or password</span>
     <div style="text-align: center">
         <button style="vertical-align: center" type="submit">login</button>
     </div>

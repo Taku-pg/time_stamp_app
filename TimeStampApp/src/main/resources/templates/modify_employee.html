@@ -28,7 +28,7 @@
     <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error">error</span>
     <br><br>
     <label>Salary:<br>
-      <input type="number" required name="salary" th:value="*{salary}">
+      <input type="number" required name="salary" th:value="*{salary}" min="10">
       zl
     </label>
     <span th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}" class="error">error</span>

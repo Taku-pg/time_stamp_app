@@ -51,7 +51,7 @@
             <input type="hidden" name="email" th:value="*{email}">
             <input type="hidden" name="department" th:value="*{department}">
             <input type="hidden" name="salary" th:value="*{salary}">
-            <button type="submit">modify</button>
+            <button type="submit">edit</button>
           </form>
         </td>
         <td>
@@ -64,6 +64,13 @@
   <br>
   <a th:href="@{/admin/main}">back</a>
 </div>
+  <script th:inline="javascript">
+    const tokenName=[[${_csrf.parameterName}]];
+    const tokenValue=[[${_csrf.token}]];
+    console.log(tokenName);
+    console.log(tokenValue);
+  </script>
+
 <script>
   function search(){
     const id=document.getElementById("employeeId").value;
@@ -120,11 +127,17 @@
       form.method="POST";
       form.action="/admin/delete-employee";
 
-      const input=document.createElement("input");
-      input.type="hidden";
-      input.name="employeeId";
-      input.value=employeeId;
-      form.appendChild(input);
+      const inputId=document.createElement("input");
+      inputId.type="hidden";
+      inputId.name="employeeId";
+      inputId.value=employeeId;
+      form.appendChild(inputId);
+
+      const inputToken=document.createElement("input");
+      inputToken.type="hidden";
+      inputToken.name=tokenName;
+      inputToken.value=tokenValue;
+      form.appendChild(inputToken);
 
       document.body.appendChild(form);
       form.submit();

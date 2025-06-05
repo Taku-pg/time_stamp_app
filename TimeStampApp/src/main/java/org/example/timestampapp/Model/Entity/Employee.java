@@ -1,6 +1,7 @@
 package org.example.timestampapp.Model.Entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,6 +18,7 @@ public class Employee {
     private LocalDateTime lastUpdate;
     @OneToOne
     @JoinColumn(name = "user_id")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private User user;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="department_id")
@@ -24,7 +26,7 @@ public class Employee {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="status_id")
     private Status status;
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WorkingHour> workingHour;
 
     public Employee() {}

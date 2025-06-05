@@ -98,6 +98,7 @@ public class EmployeeService {
                                          department,
                                          user,
                                          status);
+        user.setEmployee(employee);
         employeeRepository.save(employee);
     }
 
@@ -108,7 +109,9 @@ public class EmployeeService {
 
     @Transactional
     public void deleteEmployee(Long employeeId) {
+        System.out.println("call delete");
         employeeRepository.deleteById(employeeId);
+        System.out.println(employeeRepository.existsById(employeeId));
     }
 
     @Transactional
@@ -150,6 +153,7 @@ public class EmployeeService {
         workingHourService.backTimeStamp(employeeId);
         timeStamp(employee,"Work");
     }
+
 
     private void timeStamp(Employee employee,String type){
         Status status=statusService.getStatus(type);
