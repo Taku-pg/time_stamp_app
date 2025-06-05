@@ -11,32 +11,37 @@
         <h3>Register new employee</h3>
 
         <div class="register_employee">
-            <form th:action="@{/admin/register}" method="post">
+            <form th:action="@{/admin/register}" method="post" th:object="${employee}">
                 <label>First name:<br>
-                    <input type="text" required placeholder="John" th:field="${employee.firstName}">
+                    <input type="text" required placeholder="John" th:field="*{firstName}">
                 </label>
+                <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="error">error</div>
                 <br><br>
                 <label>Last name:<br>
-                    <input type="text" required placeholder="Doe" th:field="${employee.lastName}">
+                    <input type="text" required placeholder="Doe" th:field="*{lastName}">
                 </label>
+                <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="error">error</div>
                 <br><br>
                 <label>Email address:<br>
-                    <input type="email" required placeholder="johndoe@mail.com" th:field="${employee.email}">
+                    <input type="email" required placeholder="johndoe@mail.com" th:field="*{email}">
                 </label>
+                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error">error</div>
                 <br><br>
                 <label>Salary:<br>
-                    <input type="number" required placeholder="30" min="5" th:field="${employee.salary}">
+                    <input type="number" required placeholder="30" min="5" th:field="*{salary}">
                     zl
                 </label>
+                <div th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}" class="error">error</div>
                 <br><br>
                 <label>Department:<br>
-                    <select id="department" th:field="${employee.department}">
+                    <select id="department" th:field="*{department}">
                         <option
                                 th:each="department:${departments}"
                                 th:text="${department}"
                                 th:value="${department}"></option>
                     </select>
                 </label>
+                <div th:if="${#fields.hasErrors('department')}" th:errors="*{department}" class="error">error</div>
                 <br><br>
                 <div style="text-align: center">
                     <button type="submit">Register</button>

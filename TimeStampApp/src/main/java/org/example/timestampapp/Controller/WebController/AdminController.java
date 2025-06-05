@@ -1,5 +1,6 @@
 package org.example.timestampapp.Controller.WebController;
 
+import jakarta.validation.Valid;
 import org.example.timestampapp.Model.DTO.DepartmentStatisticsDTO;
 import org.example.timestampapp.Model.DTO.EmployeeDTO;
 import org.example.timestampapp.Model.DTO.EmployeeStatisticsDTO;
@@ -13,6 +14,7 @@ import org.example.timestampapp.Service.StatusService;
 import org.example.timestampapp.Service.WorkingHourService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -52,7 +54,15 @@ public class AdminController {
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute EmployeeDTO employeeDTO) {
+    public String register(@Valid @ModelAttribute(name = "employee") EmployeeDTO employeeDTO,
+                           BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));
+            List<String> departments=departmentService.getAllDepartmentName();
+            model.addAttribute("departments", departments);
+            model.addAttribute("employee", employeeDTO);
+            return "register";
+        }
         Department department=departmentService.getDepartment(employeeDTO.getDepartment());
         Status status=statusService.getStatus("Leave");
         if(status==null || department==null) {

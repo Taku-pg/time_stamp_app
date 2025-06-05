@@ -10,6 +10,10 @@ body{
     background: linear-gradient(45deg, white,antiquewhite);
 }
 
+.error{
+    color: red;
+}
+
 /*login page*/
 img.login_page{
     mix-blend-mode: multiply;

@@ -1,11 +1,24 @@
 package org.example.timestampapp.Model.DTO;
 
+import jakarta.validation.constraints.*;
+import org.example.timestampapp.Validation.ValidEmail;
+
+@ValidEmail
 public class EmployeeDTO {
     private Long employeeId;
+    @NotBlank(message = "{fName.null}")
+    @Size(min = 1, max = 20, message = "{fName.size}")
     private String firstName;
+    @NotBlank(message = "{lName.null}")
+    @Size(min = 1, max = 20, message="{lName.size}")
     private String lastName;
+    @NotBlank(message = "{email.null}")
+    @Email
     private String email;
+    @NotNull(message = "{salary.null}")
+    @Min(value = 10, message = "{salary.min}")
     private Integer salary;
+    @NotNull(message = "{dept.null}")
     private String department;
 
     @Override

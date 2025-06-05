@@ -15,19 +15,23 @@
     <label>First name:<br>
       <input type="text" required name="firstName" th:value="*{firstName}">
     </label>
+    <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="error">error</p>
     <br><br>
     <label>Last name:<br>
       <input type="text" required name="lastName" th:value="*{lastName}">
     </label>
+    <p  th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="error">error</p>
     <br><br>
     <label>Email address:<br>
       <input type="email" required name="email" th:value="*{email}">
     </label>
+    <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error">error</p>
     <br><br>
     <label>Salary:<br>
       <input type="number" required name="salary" th:value="*{salary}">
       zl
     </label>
+    <p th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}" class="error">error</p>
     <br><br>
     <label>Department:<br>
       <select name="department" th:field="*{department}">
@@ -37,6 +41,7 @@
                 th:value="${department}"></option>
       </select>
     </label>
+    <p th:if="${#fields.hasErrors('department')}" th:errors="*{department}" class="error">error</p>
     <br><br>
     <div style="text-align: center">
       <button type="submit">modify</button>
