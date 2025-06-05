@@ -4,17 +4,17 @@ import org.example.timestampapp.Model.DTO.DepartmentStatisticsDTO;
 import org.example.timestampapp.Model.DTO.EmployeeHistoryDTO;
 import org.example.timestampapp.Model.DTO.EmployeeStatisticsDTO;
 import org.example.timestampapp.Model.DTO.FixRecordDTO;
-import org.example.timestampapp.Model.Entity.Break;
-import org.example.timestampapp.Model.Entity.Employee;
-import org.example.timestampapp.Model.Entity.WorkingHour;
-import org.example.timestampapp.Model.Entity.WorkingHourSegment;
+import org.example.timestampapp.Model.Entity.*;
 import org.example.timestampapp.Model.Repository.EmployeeRepository;
 import org.example.timestampapp.Model.Repository.WorkingHourRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -113,6 +113,24 @@ public class WorkingHourService {
             throw new NoSuchElementException("Employee with id " + employeeId + " doesn't work now");
         }
         breakService.backTimeStamp(workingHour.getId());
+    }
+
+    @Transactional
+    public void autoCheckOut(Status leaveStatus){
+        List<WorkingHour> withoutLeave=workingHourRepository.findAllByEndTimeIsNull();
+        for (WorkingHour workingHour : withoutLeave) {
+            workingHour.setAutoLeave(true);
+            workingHour.setEndTime(LocalDateTime.now());
+            Employee employee=workingHour.getEmployee();
+            employee.setStatus(leaveStatus);
+            employee.setLastUpdate(LocalDateTime.now());
+            workingHourSegmentService
+                    .updateWorkingHourSegment(
+                            workingHour,
+                            workingHour.getStartTime(),
+                            workingHour.getEndTime());
+            workingHourRepository.save(workingHour);
+        }
     }
 
 }

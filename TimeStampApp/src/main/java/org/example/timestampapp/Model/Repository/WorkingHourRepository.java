@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,4 +28,6 @@ public interface WorkingHourRepository extends CrudRepository<WorkingHour, Long>
 
     @Query("SELECT w FROM WorkingHour w WHERE w.endTime IS NULL AND w.employee.id= :employeeId")
     Optional<WorkingHour> findCurrentWorkingHourByEmployeeId(Long employeeId);
+
+    List<WorkingHour> findAllByEndTimeIsNull();
 }
