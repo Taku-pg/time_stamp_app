@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
           xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-          layout:decorate="~{layout}">
+          layout:decorate="~{/layout/layout.html}">
 <head>
     <title>Admin main page</title>
 </head>
@@ -31,7 +31,8 @@
       <a th:href="@{/admin/modify-record}">Check unauthorized record</a>
     </div>
   </div>
-  <form th:action="@{/logout}" method="post">
+  <br>
+  <form th:action="@{/logout}" method="post" style="text-align: left">
     <button type="submit">Log out</button>
   </form>
 </div>

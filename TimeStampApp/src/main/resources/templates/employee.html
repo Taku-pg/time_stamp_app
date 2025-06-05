@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
+      layout:decorate="~{/layout/layout.html}">
 <head>
     <title>Employee main page</title>
 </head>
 <body>
 <main layout:fragment="content">
-
 <div>
     <div class="employee_current_status">
         <h2 th:text="'Hello, '+${employee.firstName}"></h2>
@@ -56,6 +55,7 @@
             <a th:href="@{/employee/employee-statistics}">Monthly statistics</a>
         </div>
     </div>
+    <br>
     <form th:action="@{/logout}" method="post">
         <button type="submit">Log out</button>
     </form>

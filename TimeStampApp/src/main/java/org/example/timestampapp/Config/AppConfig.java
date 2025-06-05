@@ -12,10 +12,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import javax.swing.text.DateFormatter;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 
 @Configuration
 public class AppConfig {
+
+    @Bean
+    public DateTimeFormatter dateFormatter() {
+        return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -44,7 +51,9 @@ public class AppConfig {
         return webSecurity -> webSecurity.ignoring()
                 .requestMatchers("/image/**")
                 .requestMatchers("/stylesheet/**")
-                .requestMatchers("/js/**");
+                .requestMatchers("/js/**")
+                .requestMatchers("/error/**")
+                .requestMatchers("/layout/**");
     }
 
     @Bean

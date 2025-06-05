@@ -7,6 +7,11 @@ public class SegmentDTO {
     private LocalDateTime endTime;
     private Long duration;
 
+    @Override
+    public String toString() {
+        return startTime.toString() + " - " + endTime.toString()+" "+duration;
+    }
+
     public SegmentDTO(LocalDateTime startTime, LocalDateTime endTime, Long duration) {
         this.startTime = startTime;
         this.endTime = endTime;

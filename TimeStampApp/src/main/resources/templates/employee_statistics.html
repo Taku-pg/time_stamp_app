@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}"  >
+      layout:decorate="~{/layout/layout.html}"  >
 <head>
     <title>Employee statistic</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -71,7 +71,7 @@
             console.log(data);
             displayChart("employeeChart",labels,data);
         </script>
-        <label style="margin-left: 15px;margin-right: 15px;margin-top: auto; margin-bottom: auto; padding: 20px">Total working hour:
+        <label style="margin: auto 15px;padding: 20px">Total working hour:
             <h2 th:text="${statistics.total}+' hour'" id="total"></h2>
         </label>
         <div class="statistic-data">
@@ -81,24 +81,24 @@
             <h4 th:text="${statistics.regular}+' hour'" id="regular"></h4>
             </div>
             <br>
-            <div style="display: flex">
+            <div style="display: block">
                 <label>Night shift:</label>
-                <h4 th:text="${statistics.nightShift}+' hour'" id="night"></h4>
+                <h4 th:text="${statistics.nightShift}+' hour'" id="night" style="text-align: center"></h4>
             </div>
             <br>
-            <div style="display: flex">
+            <div style="display: block">
                 Overtime:
-                <h4 th:text="${statistics.overTime}+' hour'" id="overtime"></h4>
+                <h4 th:text="${statistics.overTime}+' hour'" id="overtime" style="text-align: center"></h4>
             </div>
             <br>
-            <div style="display: flex">
+            <div style="display: block">
                 Overtime and night shift:
-                <h4 th:text="${statistics.overNight}+' hour'" id="overnight"></h4>
+                <h4 th:text="${statistics.overNight}+' hour'" id="overnight" style="text-align: center"></h4>
             </div>
             <br>
-            <div style="display: flex">
+            <div style="display: block">
                 Total break time:
-                <h4 th:text="${statistics.breakTime}+' hour'" id="breaktime"></h4>
+                <h4 th:text="${statistics.breakTime}+' hour'" id="breaktime" style="text-align: center"></h4>
             </div>
         </div>
     </div>

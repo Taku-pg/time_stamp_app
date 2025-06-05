@@ -6,7 +6,7 @@ public class EmployeeStatusDTO {
     private Long employeeId;
     private String firstName;
     private String currentStatus;
-    private LocalDateTime lastUpdate;
+    private String lastUpdate;
 
     public Long getEmployeeId() {
         return employeeId;
@@ -32,11 +32,11 @@ public class EmployeeStatusDTO {
         this.currentStatus = currentStatus;
     }
 
-    public LocalDateTime getLastUpdate() {
+    public String getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(LocalDateTime lastUpdate) {
+    public void setLastUpdate(String lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 }

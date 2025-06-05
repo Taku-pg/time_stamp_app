@@ -11,7 +11,7 @@ function displayChart(canvasId,labels,data){
         labels: labels,
         datasets: [{
             data: data,
-            backgroundColor: ['#b22222', '#eb5136', '#ffce56','#8B0000FF','#A52A2AFF'],
+            backgroundColor: ['#90ee90', '#8fbc8f', '#228b22','#006400','#87cefa'],
             hoverOffset: 4
         }]
     };

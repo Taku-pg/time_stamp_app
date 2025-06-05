@@ -1,18 +1,41 @@
 html{
     height: 100%;
+    margin: 0;
 }
 
 body{
     display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(45deg, white, #d0fadd) fixed;
+    min-height: 100vh;
+}
+
+header {
+    padding: 10px;
+    background-color: mediumseagreen;
+    color: white;
+    margin-bottom: 20px;
+}
+
+main {
+    flex: 1;
+    display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 5%;
-    background: linear-gradient(45deg, white, antiquewhite) fixed;
+}
+
+footer {
+    margin-top: 20px;
+    padding: 20px;
+    text-align: center;
 }
 
 .error{
     font-size: 15px;
-    color: red;
+    color: brown;
 }
 
 /*login page*/
@@ -22,10 +45,8 @@ img.login_page{
 
 .login_container{
     width: 200px;
-    #height: 200px;
     padding: 10px;
     margin: 0;
-    #max-width: fit-content;
     max-height: fit-content;
     background-color: white;
     border: 1px solid black;
@@ -87,9 +108,10 @@ img.employee_main_menu{
     padding: 2px;
     border: solid black 1px;
     border-collapse: collapse;
+
 }
 .history-table tr:nth-child(even){
-    background-color: navajowhite;
+    background-color: #ace5e8;
     border-collapse: collapse;
     border: solid black 1px;
 }
@@ -116,12 +138,10 @@ img.employee_main_menu{
     text-align: center;
     border: solid black 1px;
     border-collapse: collapse;
-    color: brown;
+    color: darkblue;
 }
 .employees_table tr:nth-child(even){
-    background-color: navajowhite;
-    /*border-collapse: collapse;
-    border: solid black 1px;*/
+    background-color: #ace5e8;
 }
 
 .employees_table tr, .employees_table td, .employees_table th{

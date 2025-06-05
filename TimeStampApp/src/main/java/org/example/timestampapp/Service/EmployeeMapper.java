@@ -8,18 +8,23 @@ import org.example.timestampapp.Model.Repository.EmployeeRepository;
 import org.example.timestampapp.Model.Repository.StatusRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
+
 @Service
 public class EmployeeMapper {
 
     private final EmployeeRepository employeeRepository;
     private final DepartmentRepository departmentRepository;
+    private final DateTimeFormatter dateFormatter;
     private final StatusRepository statusRepository;
 
     public EmployeeMapper(EmployeeRepository employeeRepository,
                           DepartmentRepository departmentRepository,
+                          DateTimeFormatter dateFormatter,
                           StatusRepository statusRepository) {
         this.employeeRepository = employeeRepository;
         this.departmentRepository = departmentRepository;
+        this.dateFormatter = dateFormatter;
         this.statusRepository = statusRepository;
     }
 
@@ -65,7 +70,7 @@ public class EmployeeMapper {
         employeeStatusDTO.setEmployeeId(employee.getId());
         employeeStatusDTO.setFirstName(employee.getFirstName());
         employeeStatusDTO.setCurrentStatus(employee.getStatus().getType());
-        employeeStatusDTO.setLastUpdate(employee.getLastUpdate());
+        employeeStatusDTO.setLastUpdate(dateFormatter.format(employee.getLastUpdate()));
         return employeeStatusDTO;
     }
 
