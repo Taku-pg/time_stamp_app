@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.NoSuchElementException;
 
 @Service
 public class BreakService {
@@ -24,12 +25,7 @@ public class BreakService {
     public void backTimeStamp(Long workingHourId) {
         Break break_ = breakRepository
                 .findCurrentBreakByWorkingHourId(workingHourId)
-                .orElse(null);
-
-        if (break_ == null) {
-            throw new RuntimeException("No break found");
-        }
-
+                .orElseThrow(()->new NoSuchElementException("No break segment found"));
         break_.setEndTime(LocalDateTime.now());
         breakRepository.save(break_);
     }

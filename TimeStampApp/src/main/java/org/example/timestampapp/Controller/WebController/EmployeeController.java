@@ -1,5 +1,6 @@
 package org.example.timestampapp.Controller.WebController;
 
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.example.timestampapp.Model.DTO.*;
@@ -16,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -72,7 +74,6 @@ public class EmployeeController {
     @GetMapping("/personal-information")
     public String personalInfo(Model model,HttpSession session) {
         EmployeeDTO employeeDTO = employeeService.getEmployeeById((Long)session.getAttribute("employeeId"));
-        System.out.println(employeeDTO);
         model.addAttribute("employee", employeeDTO);
         return "personal_information";
     }
@@ -87,7 +88,6 @@ public class EmployeeController {
     public String changePassword(@Valid @ModelAttribute(name="passwordForm") PasswordChangeDTO passwordChangeDTO,
                                  BindingResult bindingResult,
                                  Model model) {
-        System.out.println(passwordChangeDTO);
         if (bindingResult.hasErrors()) {
             model.addAttribute("passwordForm", passwordChangeDTO);
             return "password_change";
@@ -101,7 +101,7 @@ public class EmployeeController {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         try{
             userService.changePassword(userName, passwordChangeDTO.getCurrentPassword(),passwordChangeDTO.getNewPassword());
-        }catch (NoSuchElementException e){
+        }catch (InputMismatchException e){
             model.addAttribute("passwordForm", new PasswordChangeDTO());
             model.addAttribute("errorMessage", e.getMessage());
             return "password_change";

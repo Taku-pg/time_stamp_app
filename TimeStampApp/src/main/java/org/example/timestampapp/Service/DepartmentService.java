@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -21,11 +22,9 @@ public class DepartmentService {
     }
 
     public Department getDepartment(String name) {
-        Department department=departmentRepository.findDepartmentByName(name).orElse(null);
-        if(department==null){
-            throw new IllegalArgumentException("Department not found");
-        }
-        return department;
+        return departmentRepository
+                .findDepartmentByName(name)
+                .orElseThrow(()->new NoSuchElementException("No department found"));
     }
 
     public List<String> getAllDepartmentName(){
@@ -39,6 +38,8 @@ public class DepartmentService {
 
     public String getDeptName(){
         Iterable<Department> departments = departmentRepository.findAll();
+        if(!departments.iterator().hasNext())
+            throw new NoSuchElementException("No department found");
         return departments.iterator().next().getName();
     }
 

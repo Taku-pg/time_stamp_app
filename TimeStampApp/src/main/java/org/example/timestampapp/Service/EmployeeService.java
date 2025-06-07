@@ -27,42 +27,36 @@ public class EmployeeService {
     private final EmployeeMapper employeeMapper;
     private final StatisticsService statisticsService;
     private final StatusService statusService;
-    private final DepartmentRepository departmentRepository;
     private final PasswordEncoder bCryptPasswordEncoder;
     private final WorkingHourService workingHourService;
-    private final WorkingHourRepository workingHourRepository;
 
     public EmployeeService(EmployeeRepository employeeRepository,
                            UserRepository userRepository,
                            EmployeeMapper employeeMapper,
                            StatisticsService statisticsService,
                            StatusService statusService,
-                           DepartmentRepository departmentRepository,
-                           PasswordEncoder bCryptPasswordEncoder, WorkingHourService workingHourService, WorkingHourRepository workingHourRepository) {
+                           PasswordEncoder bCryptPasswordEncoder,
+                           WorkingHourService workingHourService) {
         this.employeeRepository = employeeRepository;
         this.userRepository = userRepository;
         this.employeeMapper = employeeMapper;
         this.statisticsService = statisticsService;
         this.statusService = statusService;
-        this.departmentRepository = departmentRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.workingHourService = workingHourService;
-        this.workingHourRepository = workingHourRepository;
     }
 
     public EmployeeDTO getEmployeeById(long id) {
-        Employee employee = employeeRepository.getEmployeeById(id).orElse(null);
-        if (employee == null) {
-            throw new NoSuchElementException("Employee with id " + id + " not found");
-        }
+        Employee employee = employeeRepository
+                .getEmployeeById(id)
+                .orElseThrow(()->new NoSuchElementException("Employee with id \" + id + \" not found"));
         return employeeMapper.map(employee);
     }
 
     public EmployeeStatusDTO getEmployeeStatusByEmail(String email) {
-        Employee employee=employeeRepository.findEmployeeByEmail(email).orElse(null);
-        if (employee == null) {
-            throw new NoSuchElementException("Employee with email " + email + " not found");
-        }
+        Employee employee=employeeRepository
+                .findEmployeeByEmail(email)
+                .orElseThrow(()->new NoSuchElementException("Employee with email " + email + " not found"));
         return employeeMapper.mapEmployeeStatusDTO(employee);
     }
 
@@ -109,47 +103,41 @@ public class EmployeeService {
 
     @Transactional
     public void deleteEmployee(Long employeeId) {
-        System.out.println("call delete");
         employeeRepository.deleteById(employeeId);
-        System.out.println(employeeRepository.existsById(employeeId));
     }
 
     @Transactional
     public void workTimeStamp(Long employeeId) {
-        Employee employee = employeeRepository.getEmployeeById(employeeId).orElse(null);
-        if (employee == null) {
-            throw new NoSuchElementException("Employee with id " + employeeId + " not found");
-        }
+        Employee employee = employeeRepository
+                .getEmployeeById(employeeId)
+                .orElseThrow(()->new NoSuchElementException("Employee with id " + employeeId + " not found"));
         workingHourService.workTimeStamp(employee);
         timeStamp(employee,"Work");
     }
 
     @Transactional
     public void leaveTimeStamp(Long employeeId) {
-        Employee employee = employeeRepository.getEmployeeById(employeeId).orElse(null);
-        if (employee == null) {
-            throw new NoSuchElementException("Employee with id " + employeeId + " not found");
-        }
+        Employee employee = employeeRepository
+                .getEmployeeById(employeeId)
+                .orElseThrow(()->new NoSuchElementException("Employee with id " + employeeId + " not found"));
         workingHourService.leaveTimeStamp(employeeId);
         timeStamp(employee,"Leave");
     }
 
     @Transactional
     public void breakTimeStamp(Long employeeId) {
-        Employee employee = employeeRepository.getEmployeeById(employeeId).orElse(null);
-        if (employee == null) {
-            throw new NoSuchElementException("Employee with id " + employeeId + " not found");
-        }
+        Employee employee = employeeRepository
+                .getEmployeeById(employeeId)
+                .orElseThrow(()->new NoSuchElementException("Employee with id " + employeeId + " not found"));
         workingHourService.breakTimeStamp(employeeId);
         timeStamp(employee,"Break");
     }
 
     @Transactional
     public void backTimeStamp(Long employeeId) {
-        Employee employee = employeeRepository.getEmployeeById(employeeId).orElse(null);
-        if (employee == null) {
-            throw new NoSuchElementException("Employee with id " + employeeId + " not found");
-        }
+        Employee employee = employeeRepository
+                .getEmployeeById(employeeId)
+                .orElseThrow(()->new NoSuchElementException("Employee with id " + employeeId + " not found"));
         workingHourService.backTimeStamp(employeeId);
         timeStamp(employee,"Work");
     }

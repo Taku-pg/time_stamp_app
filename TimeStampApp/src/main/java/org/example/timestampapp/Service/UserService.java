@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -25,18 +26,14 @@ public class UserService {
 
     @Transactional
     public void changePassword(String username,String currentPassword, String newPassword) {
-        //String encodedCurrentPassword = passwordEncoder.encode(currentPassword);
-        User user= userRepository.findUserByUsername(username).orElse(null);
+        User user= userRepository
+                .findUserByUsername(username)
+                .orElseThrow(()->new NoSuchElementException("No user found for username " + username));
 
-
-        if(user==null) {
-            throw new NoSuchElementException("User not found");
-        }
-        System.out.println(currentPassword);
-        System.out.println(user.getPassword());
         if(!passwordEncoder.matches(currentPassword,user.getPassword())) {
-            throw new NoSuchElementException("Current password does not match");
+            throw new InputMismatchException("Current password does not match");
         }
+
         String encodedNewPassword = passwordEncoder.encode(newPassword);
         user.setPassword(encodedNewPassword);
         userRepository.save(user);

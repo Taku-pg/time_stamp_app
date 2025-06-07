@@ -21,18 +21,16 @@ import java.util.NoSuchElementException;
 @Service
 public class WorkingHourService {
     private final WorkingHourRepository workingHourRepository;
-    private final EmployeeRepository employeeRepository;
+
     private final WorkingHourMapper workingHourMapper;
     private final WorkingHourSegmentService workingHourSegmentService;
     private final BreakService breakService;
 
     public WorkingHourService(WorkingHourRepository workingHourRepository,
-                              EmployeeRepository employeeRepository,
                               WorkingHourMapper workingHourMapper,
                               WorkingHourSegmentService workingHourSegmentService,
                               BreakService breakService) {
         this.workingHourRepository = workingHourRepository;
-        this.employeeRepository = employeeRepository;
         this.workingHourMapper = workingHourMapper;
         this.workingHourSegmentService = workingHourSegmentService;
         this.breakService = breakService;
@@ -55,9 +53,10 @@ public class WorkingHourService {
 
     @Transactional
     public void updateWorkingHour(Long workingHourId,LocalDateTime startTime,LocalDateTime endTime) {
-        WorkingHour target=workingHourRepository.findById(workingHourId).orElse(null);
-        if(target==null)
-            throw new RuntimeException("Internal Error");
+        WorkingHour target=workingHourRepository
+                .findById(workingHourId)
+                .orElseThrow(()-> new NoSuchElementException("No working record found"));
+
         target.getBreaks().removeIf(break_ -> break_.getEndTime().isAfter(endTime));
         target.setStartTime(startTime);
         target.setEndTime(endTime);
@@ -77,11 +76,7 @@ public class WorkingHourService {
     public void leaveTimeStamp(Long employeeId){
         WorkingHour workingHour=workingHourRepository
                 .findCurrentWorkingHourByEmployeeId(employeeId)
-                .orElse(null);
-
-        if (workingHour == null) {
-            throw new NoSuchElementException("Employee with id " + employeeId + " doesn't work now");
-        }
+                .orElseThrow(()->new NoSuchElementException("Employee with id " + employeeId + " doesn't work now"));
 
         workingHour.setAutoLeave(false);
         workingHour.setEndTime(LocalDateTime.now());
@@ -97,10 +92,7 @@ public class WorkingHourService {
     public void breakTimeStamp(Long employeeId){
         WorkingHour workingHour=workingHourRepository.
                 findCurrentWorkingHourByEmployeeId(employeeId).
-                orElse(null);
-        if (workingHour == null) {
-            throw new NoSuchElementException("Employee with id " + employeeId + " doesn't work now");
-        }
+                orElseThrow(()->new NoSuchElementException("Employee with id " + employeeId + " doesn't work now"));
         breakService.breakTimeStamp(workingHour);
     }
 
@@ -108,10 +100,7 @@ public class WorkingHourService {
     public void backTimeStamp(Long employeeId){
         WorkingHour workingHour=workingHourRepository.
                 findCurrentWorkingHourByEmployeeId(employeeId).
-                orElse(null);
-        if (workingHour == null) {
-            throw new NoSuchElementException("Employee with id " + employeeId + " doesn't work now");
-        }
+                orElseThrow(()->new NoSuchElementException("Employee with id " + employeeId + " doesn't work now"));
         breakService.backTimeStamp(workingHour.getId());
     }
 

@@ -57,7 +57,6 @@ public class AdminController {
     public String register(@Valid @ModelAttribute(name = "employee") EmployeeDTO employeeDTO,
                            BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            bindingResult.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));
             List<String> departments=departmentService.getAllDepartmentName();
             model.addAttribute("departments", departments);
             model.addAttribute("employee", employeeDTO);

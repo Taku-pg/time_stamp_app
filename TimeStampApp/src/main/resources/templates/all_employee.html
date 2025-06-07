@@ -67,21 +67,22 @@
   <script th:inline="javascript">
     const tokenName=[[${_csrf.parameterName}]];
     const tokenValue=[[${_csrf.token}]];
-    console.log(tokenName);
-    console.log(tokenValue);
   </script>
 
 <script>
   function search(){
     const id=document.getElementById("employeeId").value;
-    console.log(id);
+    if(!id){
+      alert("input employee id");
+      return;
+    }
+
     fetch(`/api/employee/${id}`)
             .then(response=>{
-              if(!response.ok) throw new Error("Not found");
+              if(!response.ok) throw new Error("Not found employee with given id");
               return response.json()
             })
             .then(data=>{
-              console.log(data)
               const tableBody=document.getElementById("tableBody");
               tableBody.innerHTML="";
               const row=document.createElement("tr");
@@ -119,7 +120,6 @@
   }
 
   function confirmDelete(employeeId) {
-    console.log(employeeId);
     const result = confirm("Do you want to delete this employee?");
     if (result) {
       alert("Deleted");

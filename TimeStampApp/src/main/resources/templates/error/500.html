@@ -9,7 +9,7 @@
 <body>
 <main layout:fragment="content" style="display: block; text-align: center">
   <h1 style="color: brown">500</h1><br>
-  <h3>Internal server error occurred.</h3><br>
+  <h3 th:text="${errorMessage}">Internal server error occurred.</h3><br>
   <h3>Please try later.</h3>
 </main>
 </body>

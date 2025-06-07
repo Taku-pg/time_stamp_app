@@ -16,16 +16,13 @@ public class EmployeeMapper {
     private final EmployeeRepository employeeRepository;
     private final DepartmentRepository departmentRepository;
     private final DateTimeFormatter dateFormatter;
-    private final StatusRepository statusRepository;
 
     public EmployeeMapper(EmployeeRepository employeeRepository,
                           DepartmentRepository departmentRepository,
-                          DateTimeFormatter dateFormatter,
-                          StatusRepository statusRepository) {
+                          DateTimeFormatter dateFormatter) {
         this.employeeRepository = employeeRepository;
         this.departmentRepository = departmentRepository;
         this.dateFormatter = dateFormatter;
-        this.statusRepository = statusRepository;
     }
 
     public EmployeeDTO map(Employee employee) {
@@ -41,8 +38,9 @@ public class EmployeeMapper {
     }
 
     public Employee map(EmployeeDTO employeeDTO) {
-        System.out.println(employeeDTO.getEmployeeId());
-        Employee employee= employeeRepository.getEmployeeById(employeeDTO.getEmployeeId()).orElse(null);
+        Employee employee= employeeRepository
+                .getEmployeeById(employeeDTO.getEmployeeId())
+                .orElse(null);
 
         if(employee!=null) {
             if (employeeDTO.getFirstName() != null)
