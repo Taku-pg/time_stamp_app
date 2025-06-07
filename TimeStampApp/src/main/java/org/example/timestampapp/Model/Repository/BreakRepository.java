@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface BreakRepository extends CrudRepository<Break, Long> {
     @Query("SELECT b FROM Break b WHERE b.endTime IS NULL AND b.workingHour.id= :workingHourId")
-    Optional<Break> findCurrentBreakByWorkingHourId(Long WorkingHourId);
+    Optional<Break> findCurrentBreakByWorkingHourId(Long workingHourId);
 }

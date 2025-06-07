@@ -68,7 +68,8 @@ public class EmployeeMapper {
         employeeStatusDTO.setEmployeeId(employee.getId());
         employeeStatusDTO.setFirstName(employee.getFirstName());
         employeeStatusDTO.setCurrentStatus(employee.getStatus().getType());
-        employeeStatusDTO.setLastUpdate(dateFormatter.format(employee.getLastUpdate()));
+        if(employee.getLastUpdate()!=null)
+            employeeStatusDTO.setLastUpdate(dateFormatter.format(employee.getLastUpdate()));
         return employeeStatusDTO;
     }
 

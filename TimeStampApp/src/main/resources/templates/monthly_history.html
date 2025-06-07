@@ -30,7 +30,7 @@
     <tr th:each="history:${monthlyHistory.histories}">
       <td th:text="${history.date}"></td>
       <td th:text="${history.startTime}"></td>
-      <td th:text="${history.endTime}"></td>
+      <td th:text="${history.endTime!=null? history.endTime: '---'}" ></td>
       <td th:text="|${history.calculatedSalary} zl|"></td>
     </tr>
     </tbody>
@@ -64,8 +64,8 @@
                   row.innerHTML = `
                     <td>${d.date}</td>
                     <td>${d.startTime}</td>
-                    <td>${d.endTime}</td>
-                    <td>${d.calculatedSalary}</td>`
+                    <td>${d.endTime != null ? d.endTime:'---'}</td>
+                    <td>${d.calculatedSalary} zl</td>`
                   tableBody.appendChild(row);
                 })
 

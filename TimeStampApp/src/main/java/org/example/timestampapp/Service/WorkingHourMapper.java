@@ -127,7 +127,8 @@ public class WorkingHourMapper {
         EmployeeHistoryDTO history= new EmployeeHistoryDTO();
         history.setDate(workingHour.getStartTime().toLocalDate());
         history.setStartTime(workingHour.getStartTime().toLocalTime());
-        history.setEndTime(workingHour.getEndTime().toLocalTime());
+        if(workingHour.getEndTime()!=null)
+            history.setEndTime(workingHour.getEndTime().toLocalTime());
         double sal=0;
         for(WorkingHourSegment segment : segments) {
             Optional<SegmentType> type=segmentTypeRepository.findById(segment.getSegmentType().getId());
