@@ -8,14 +8,10 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true
   sql:
     init:
       schema-locations: classpath:data/schema.sql
       data-locations: classpath:data/data.sql
-      mode: never
-  security:
-    user:
-      name: user
-      password: "{bcrypt}$2a$10$xBPpXiS1UJnsacXl9./lZ.wA4WhnibwLGCRK5o0kcIdAjobHTykQG"
+      mode: never 
