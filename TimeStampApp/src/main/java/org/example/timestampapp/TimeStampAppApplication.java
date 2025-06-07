@@ -10,14 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class TimeStampAppApplication {
 
     public static void main(String[] args) {
-        /*BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String rawPassword = "EmployeeNo3";
-        //String rawPassword = "admin";
-        String hashedPassword = encoder.encode(rawPassword);
-        System.out.println("Hashed password: " + hashedPassword);*/
-
         SpringApplication.run(TimeStampAppApplication.class, args);
-
     }
 
 }
