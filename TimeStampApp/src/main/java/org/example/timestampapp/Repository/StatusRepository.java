@@ -1,4 +1,4 @@
-package org.example.timestampapp.Model.Repository;
+package org.example.timestampapp.Repository;
 
 import org.example.timestampapp.Model.Entity.Status;
 import org.springframework.data.repository.CrudRepository;

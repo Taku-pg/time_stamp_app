@@ -2,13 +2,12 @@ package org.example.timestampapp.Service;
 
 import org.example.timestampapp.Model.DTO.DepartmentStatisticsDTO;
 import org.example.timestampapp.Model.Entity.Department;
-import org.example.timestampapp.Model.Repository.DepartmentRepository;
+import org.example.timestampapp.Repository.DepartmentRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class DepartmentService {

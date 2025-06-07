@@ -2,9 +2,8 @@ package org.example.timestampapp.Service;
 
 import org.example.timestampapp.Model.Entity.Break;
 import org.example.timestampapp.Model.Entity.WorkingHour;
-import org.example.timestampapp.Model.Repository.BreakRepository;
+import org.example.timestampapp.Repository.BreakRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;

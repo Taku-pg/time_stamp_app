@@ -2,11 +2,10 @@ package org.example.timestampapp.Service;
 
 import org.example.timestampapp.Model.DTO.*;
 import org.example.timestampapp.Model.Entity.*;
-import org.example.timestampapp.Model.Repository.SegmentTypeRepository;
+import org.example.timestampapp.Repository.SegmentTypeRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service

@@ -5,11 +5,8 @@ import org.example.timestampapp.Model.DTO.EmployeeHistoryDTO;
 import org.example.timestampapp.Model.DTO.EmployeeStatisticsDTO;
 import org.example.timestampapp.Model.DTO.EmployeeStatusDTO;
 import org.example.timestampapp.Model.Entity.*;
-import org.example.timestampapp.Model.Repository.DepartmentRepository;
-import org.example.timestampapp.Model.Repository.EmployeeRepository;
-import org.example.timestampapp.Model.Repository.UserRepository;
-import org.example.timestampapp.Model.Repository.WorkingHourRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.example.timestampapp.Repository.EmployeeRepository;
+import org.example.timestampapp.Repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +15,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class EmployeeService {

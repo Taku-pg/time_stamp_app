@@ -3,7 +3,7 @@ package org.example.timestampapp.Service;
 import org.example.timestampapp.Model.DTO.DepartmentStatisticsDTO;
 import org.example.timestampapp.Model.DTO.EmployeeStatisticsDTO;
 import org.example.timestampapp.Model.Entity.WorkingHour;
-import org.example.timestampapp.Model.Repository.WorkingHourRepository;
+import org.example.timestampapp.Repository.WorkingHourRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

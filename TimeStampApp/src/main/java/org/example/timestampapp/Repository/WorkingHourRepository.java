@@ -1,4 +1,4 @@
-package org.example.timestampapp.Model.Repository;
+package org.example.timestampapp.Repository;
 
 import org.example.timestampapp.Model.Entity.WorkingHour;
 import org.springframework.data.jpa.repository.Query;

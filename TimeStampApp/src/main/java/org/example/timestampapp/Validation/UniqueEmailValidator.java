@@ -4,9 +4,8 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.example.timestampapp.Model.DTO.EmployeeDTO;
 import org.example.timestampapp.Model.Entity.Employee;
-import org.example.timestampapp.Model.Repository.EmployeeRepository;
+import org.example.timestampapp.Repository.EmployeeRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 public class UniqueEmailValidator implements ConstraintValidator<ValidEmail, EmployeeDTO> {

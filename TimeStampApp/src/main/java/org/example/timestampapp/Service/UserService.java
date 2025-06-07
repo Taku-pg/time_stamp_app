@@ -1,7 +1,7 @@
 package org.example.timestampapp.Service;
 
 import org.example.timestampapp.Model.Entity.User;
-import org.example.timestampapp.Model.Repository.UserRepository;
+import org.example.timestampapp.Repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,8 +1,7 @@
 package org.example.timestampapp.Service;
 
-import org.example.timestampapp.Model.Entity.Employee;
 import org.example.timestampapp.Model.Entity.Status;
-import org.example.timestampapp.Model.Repository.StatusRepository;
+import org.example.timestampapp.Repository.StatusRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
