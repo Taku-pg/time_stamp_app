@@ -1,5 +1,5 @@
 # Time stamp application
-This is sample project using spring framework for learning purpose.
+This is a sample project using spring framework for learning purpose.
 
 This application is designed to facilitate worker's time stamp service.
 
