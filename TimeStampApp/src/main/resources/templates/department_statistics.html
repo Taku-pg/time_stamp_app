@@ -29,7 +29,6 @@
     <script src="/js/chart-display.js"></script>
     <script th:inline="javascript">
     const departments=[[${departments}]];
-    console.log(departments);
     const labels=['regular','over time','night shift', 'over time and night shift','break'];
     const data=[
       [[${statistics.regular}]],
@@ -38,7 +37,6 @@
       [[${statistics.overNight}]],
       [[${statistics.breakTime}]],
     ]
-    console.log(data);
     displayChart("deptChart",labels,data);
   </script>
     <script>
@@ -50,7 +48,6 @@
 
         departments.forEach(dept=>{
           const option=document.createElement("option");
-          console.log(`dept ${dept}`,dept);
           option.value=dept;
           option.textContent=dept;
           select.appendChild(option);
@@ -59,9 +56,7 @@
 
       function search(){
         const period=document.getElementById('month').value;
-        console.log(period);
         const name= document.getElementById("department").value;
-        console.log(name);
 
         const [year, month]=period.split('-');
 
@@ -71,7 +66,6 @@
                   return response.json()
                 })
                 .then(data=>{
-                  console.log(data)
                   document.getElementById("title").textContent=name+' department working statistics ('+period+')';
                   document.getElementById("regular").textContent=data.regular+' hour';
                   document.getElementById("night").textContent=data.nightShift+' hour';
@@ -86,11 +80,9 @@
                     data.overNight,
                     data.breakTime
                   ]
-                  console.log(chartData);
                   displayChart("deptChart",labels,chartData);
                 });
 
-        console.log(departments);
         fillSelect();
       }
     </script>

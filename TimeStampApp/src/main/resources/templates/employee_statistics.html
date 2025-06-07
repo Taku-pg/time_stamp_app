@@ -24,9 +24,7 @@
         <script>
             function search(){
                 const period=document.getElementById('month').value;
-                console.log(period);
                 const id= document.getElementById("id").value;
-                console.log(id);
 
                 const [year, month]=period.split('-');
 
@@ -36,7 +34,6 @@
                         return response.json()
                     })
                     .then(data=>{
-                        console.log(data)
                         document.getElementById("title").textContent='Working statistics ('+period+')';
                         document.getElementById("id").textContent=data.employeeId;
                         document.getElementById("regular").textContent=data.regular+' hour';
@@ -54,7 +51,6 @@
                             data.overNight,
                             data.breakTime
                         ]
-                        console.log(chartData);
                         displayChart("employeeChart",labels,chartData);
                     });
             }
@@ -68,7 +64,6 @@
                 [[${statistics.overNight}]],
                 [[${statistics.breakTime}]],
             ]
-            console.log(data);
             displayChart("employeeChart",labels,data);
         </script>
         <label style="margin: auto 15px;padding: 20px">Total working hour:

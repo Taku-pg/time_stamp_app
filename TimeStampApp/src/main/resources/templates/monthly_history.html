@@ -40,19 +40,15 @@
   <script>
     function search(){
       const period=document.getElementById('month').value;
-      console.log(period)
       const id=document.getElementById("id").value;
-      console.log(id)
       const [year, month]=period.split('-');
 
-      console.log(id);
       fetch(`/api/employee/${id}/history/${year}/${month}`)
               .then(response=>{
                 if(!response.ok) throw new Error("Not found");
                 return response.json()
               })
               .then(data=>{
-                console.log(data)
                 document.getElementById("title").textContent=name+'Working history ('+period+')';
                 document.getElementById("total").textContent='Total salary of the month: '+data.totalSalary+'zl';
 
