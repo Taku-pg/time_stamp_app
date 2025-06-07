@@ -41,7 +41,7 @@ This application is designed to facilitate worker's time stamp service.
 ```
  
 3. Create database on local host
-   You can use provided sql files
+   
 ```
  CREATE DATABASE timestampdb;  
  CREATE USER 'timestamp'@'localhost' IDENTIFIED BY 'password';  
@@ -50,6 +50,8 @@ This application is designed to facilitate worker's time stamp service.
 ```
 
 4. Initialaize schema and data
+
+   You can use provided sql files
    
 ```
  mysql -u timestamp -p timestampdb < src/main/resources/data/schema.sql
