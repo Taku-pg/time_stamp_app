@@ -21,7 +21,7 @@ public class CalculateWorkingHourSegmentService {
 
     private final SegmentTypeRepository segmentTypeRepository;
     private final LocalTime TEN_O_CLOCK = LocalTime.of(21, 59);
-    private final LocalTime FIVE_O_CLOCK = LocalTime.of(5, 0);
+    private final LocalTime FIVE_O_CLOCK = LocalTime.of(5, 1);
 
     public CalculateWorkingHourSegmentService(SegmentTypeRepository segmentTypeRepository) {
         this.segmentTypeRepository = segmentTypeRepository;
@@ -36,7 +36,7 @@ public class CalculateWorkingHourSegmentService {
             Break first = breaks.next();
             segmentDurations.add(
                     new SegmentDTO(startTime,
-                            first.getEndTime(),
+                            first.getStartTime(),
                             Duration.between(startTime, first.getStartTime()).toMinutes()));
             while (breaks.hasNext()) {
                 Break second = breaks.next();
@@ -79,7 +79,9 @@ public class CalculateWorkingHourSegmentService {
                     regularDuration = 480;
                 }
             } else {
-                if (isOverDate && segmentDuration.getStartTime().toLocalTime().isAfter(TEN_O_CLOCK)) {
+                if (isOverDate &&
+                        (segmentDuration.getStartTime().toLocalTime().isAfter(TEN_O_CLOCK)
+                                || segmentDuration.getEndTime().toLocalTime().isBefore(FIVE_O_CLOCK))) {
                     //only night
                     nightDuration += segmentDuration.getDuration();
                 } else {

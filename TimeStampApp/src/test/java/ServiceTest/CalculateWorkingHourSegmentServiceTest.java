@@ -38,17 +38,13 @@ public class CalculateWorkingHourSegmentServiceTest {
         SegmentType mockRegularType = new SegmentType();
         mockRegularType.setName("regular");
         when(segmentTypeRepository.findSegmentTypeByName("regular")).thenReturn(Optional.of(mockRegularType));
-        /*SegmentType mockOverType = new SegmentType();
-        mockRegularType.setName("overtime");
-        when(segmentTypeRepository.findSegmentTypeByName("overtime")).thenReturn(Optional.of(mockOverType));*/
+
 
         calculateWorkingHourSegmentService.calculateWorkingHourSegment(mockWorkingHour, mockWorkingHour.getStartTime(), mockWorkingHour.getEndTime());
 
         assertEquals(1, mockWorkingHour.getSegments().size());
         assertEquals(480, mockWorkingHour.getSegments().getFirst().getDuration());
-        //assertEquals(180, mockWorkingHour.getSegments().get(1).getDuration());
         assertEquals("regular", mockWorkingHour.getSegments().getFirst().getSegmentType().getName());
-        //assertEquals("overtime", mockWorkingHour.getSegments().get(1).getSegmentType().getName());
     }
 
     @Test
@@ -77,5 +73,100 @@ public class CalculateWorkingHourSegmentServiceTest {
         //assertEquals(180, mockWorkingHour.getSegments().get(1).getDuration());
         assertEquals("regular", mockWorkingHour.getSegments().getFirst().getSegmentType().getName());
         //assertEquals("overtime", mockWorkingHour.getSegments().get(1).getSegmentType().getName());
+    }
+
+    @Test
+    void calculateWorkingHourSegment_NightWithoutBreak() {
+        WorkingHour mockWorkingHour = new WorkingHour();
+        mockWorkingHour.setStartTime(LocalDateTime.of(2025,1,1,22,0));
+        mockWorkingHour.setEndTime(LocalDateTime.of(2025,1,2,5,0));
+        mockWorkingHour.setSegments(new ArrayList<>());
+        mockWorkingHour.setBreaks(List.of());
+
+        SegmentType mockNightType = new SegmentType();
+        mockNightType.setName("night");
+        when(segmentTypeRepository.findSegmentTypeByName("night")).thenReturn(Optional.of(mockNightType));
+
+
+        calculateWorkingHourSegmentService.calculateWorkingHourSegment(mockWorkingHour, mockWorkingHour.getStartTime(), mockWorkingHour.getEndTime());
+
+        assertEquals(1, mockWorkingHour.getSegments().size());
+        assertEquals(420, mockWorkingHour.getSegments().getFirst().getDuration());
+        assertEquals("night", mockWorkingHour.getSegments().getFirst().getSegmentType().getName());
+    }
+
+    @Test
+    void calculateWorkingHourSegment_NightWithBreak() {
+        WorkingHour mockWorkingHour = new WorkingHour();
+        mockWorkingHour.setStartTime(LocalDateTime.of(2025,1,1,22,0));
+        mockWorkingHour.setEndTime(LocalDateTime.of(2025,1,2,5,0));
+        mockWorkingHour.setSegments(new ArrayList<>());
+
+        Break mockBreak = new Break();
+        mockBreak.setStartTime(LocalDateTime.of(2025,1,1,23,0));
+        mockBreak.setEndTime(LocalDateTime.of(2025,1,2,0,0));
+        mockWorkingHour.setBreaks(List.of(mockBreak));
+
+        SegmentType mockNightType = new SegmentType();
+        mockNightType.setName("night");
+        when(segmentTypeRepository.findSegmentTypeByName("night")).thenReturn(Optional.of(mockNightType));
+
+        calculateWorkingHourSegmentService.calculateWorkingHourSegment(mockWorkingHour, mockWorkingHour.getStartTime(), mockWorkingHour.getEndTime());
+
+        assertEquals(1, mockWorkingHour.getSegments().size());
+        assertEquals(360, mockWorkingHour.getSegments().getFirst().getDuration());
+        assertEquals("night", mockWorkingHour.getSegments().getFirst().getSegmentType().getName());
+    }
+
+    @Test
+    void calculateWorkingHourSegment_RegularAndOvertimeWithoutBreak() {
+        WorkingHour mockWorkingHour = new WorkingHour();
+        mockWorkingHour.setStartTime(LocalDateTime.of(2025,1,1,8,0));
+        mockWorkingHour.setEndTime(LocalDateTime.of(2025,1,1,20,0));
+        mockWorkingHour.setSegments(new ArrayList<>());
+        mockWorkingHour.setBreaks(List.of());
+
+        SegmentType mockRegularType = new SegmentType();
+        mockRegularType.setName("regular");
+        when(segmentTypeRepository.findSegmentTypeByName("regular")).thenReturn(Optional.of(mockRegularType));
+        SegmentType mockOverType = new SegmentType();
+        mockOverType.setName("overtime");
+        when(segmentTypeRepository.findSegmentTypeByName("overtime")).thenReturn(Optional.of(mockOverType));
+
+        calculateWorkingHourSegmentService.calculateWorkingHourSegment(mockWorkingHour, mockWorkingHour.getStartTime(), mockWorkingHour.getEndTime());
+
+        assertEquals(2, mockWorkingHour.getSegments().size());
+        assertEquals(480, mockWorkingHour.getSegments().get(0).getDuration());
+        assertEquals(240, mockWorkingHour.getSegments().get(1).getDuration());
+        assertEquals("regular", mockWorkingHour.getSegments().get(0).getSegmentType().getName());
+        assertEquals("overtime", mockWorkingHour.getSegments().get(1).getSegmentType().getName());
+    }
+
+    @Test
+    void calculateWorkingHourSegment_RegularAndOvertimeWithBreak() {
+        WorkingHour mockWorkingHour = new WorkingHour();
+        mockWorkingHour.setStartTime(LocalDateTime.of(2025,1,1,8,0));
+        mockWorkingHour.setEndTime(LocalDateTime.of(2025,1,1,20,0));
+        mockWorkingHour.setSegments(new ArrayList<>());
+
+        Break mockBreak = new Break();
+        mockBreak.setStartTime(LocalDateTime.of(2025,1,1,10,0));
+        mockBreak.setEndTime(LocalDateTime.of(2025,1,1,11,0));
+        mockWorkingHour.setBreaks(List.of(mockBreak));
+
+        SegmentType mockRegularType = new SegmentType();
+        mockRegularType.setName("regular");
+        when(segmentTypeRepository.findSegmentTypeByName("regular")).thenReturn(Optional.of(mockRegularType));
+        SegmentType mockOverType = new SegmentType();
+        mockOverType.setName("overtime");
+        when(segmentTypeRepository.findSegmentTypeByName("overtime")).thenReturn(Optional.of(mockOverType));
+
+        calculateWorkingHourSegmentService.calculateWorkingHourSegment(mockWorkingHour, mockWorkingHour.getStartTime(), mockWorkingHour.getEndTime());
+
+        assertEquals(2, mockWorkingHour.getSegments().size());
+        assertEquals(480, mockWorkingHour.getSegments().get(0).getDuration());
+        assertEquals(180, mockWorkingHour.getSegments().get(1).getDuration());
+        assertEquals("regular", mockWorkingHour.getSegments().get(0).getSegmentType().getName());
+        assertEquals("overtime", mockWorkingHour.getSegments().get(1).getSegmentType().getName());
     }
 }
